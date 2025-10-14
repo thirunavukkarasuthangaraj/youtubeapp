@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro YouTube Thumbnail Maker</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #0f0f0f;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    width: 380px;
+    background: #1a1a1a;
+    padding: 30px;
+    overflow-y: auto;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .sidebar h1 {
+    color: #fff;
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sidebar p {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .section {
+    margin-bottom: 30px;
+  }
+
+  .section h3 {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-left: 4px solid #ff0000;
+    padding-left: 10px;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+
+  .input-group label {
+    display: block;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .input-group input[type="text"],
+  .input-group textarea,
+  .input-group select {
+    width: 100%;
+    padding: 12px 15px;
+    background: #2a2a2a;
+    border: 2px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+
+  .input-group input:focus,
+  .input-group textarea:focus,
+  .input-group select:focus {
+    outline: none;
+    border-color: #ff0000;
+    background: #333;
+  }
+
+  .input-group textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+
+  .input-group input[type="file"] {
+    display: none;
+  }
+
+  .file-upload {
+    padding: 12px 20px;
+    background: #2a2a2a;
+    border: 2px dashed #555;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #aaa;
+    position: relative;
+  }
+
+  .file-upload:hover {
+    border-color: #ff0000;
+    background: #333;
+  }
+
+  .file-upload.drag-over {
+    border-color: #00ff00;
+    background: rgba(0, 255, 0, 0.1);
+    transform: scale(1.02);
+  }
+
+  .file-upload .upload-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .file-upload .upload-text {
+    font-size: 13px;
+  }
+
+  .preview-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 2px solid #444;
+  }
+
+  .overlay-item {
+    position: relative;
+    border: 2px solid #444;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .overlay-item img {
+    width: 100%;
+    height: 60px;
+    object-fit: cover;
+  }
+
+  .overlay-item .remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay-image {
+    position: absolute;
+    z-index: 3;
+    cursor: move;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .overlay-image:hover {
+    border-color: #ff0000;
+  }
+
+  .overlay-image.dragging {
+    opacity: 0.7;
+    border-color: #00ff00;
+  }
+
+  .templates {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .template-card {
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .template-card:hover {
+    border-color: #ff0000;
+    transform: scale(1.05);
+  }
+
+  .template-card.active {
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  }
+
+  .template-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,0,0,0.2), rgba(0,0,0,0.5));
+  }
+
+  .t1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+  .t2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+  .t3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+  .t4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+  .slider-group {
+    margin-bottom: 20px;
+  }
+
+  .slider-group label {
+    display: flex;
+    justify-content: space-between;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .slider-group input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: #333;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #ff0000;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  }
+
+  .color-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .color-input {
+    position: relative;
+  }
+
+  .color-input input[type="color"] {
+    width: 100%;
+    height: 50px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    background: none;
+  }
+
+  .color-input label {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+  }
+
+  .toggle-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+  }
+
+  .toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #333;
+    border-radius: 26px;
+    transition: 0.3s;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  .toggle input:checked + .toggle-slider {
+    background: #ff0000;
+  }
+
+  .toggle input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: #0a0a0a;
+  }
+
+  .canvas-wrapper {
+    position: relative;
+  }
+
+  .thumbnail-canvas {
+    width: 1280px;
+    height: 720px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    position: relative;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  }
+
+  .bg-layer {
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .overlay-layer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    z-index: 1;
+  }
+
+  .content-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+  }
+
+  .subtitle {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    text-align: center;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+    padding: 20px 35px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+  }
+
+  .main-title {
+    font-size: 120px;
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    text-shadow: 
+      4px 4px 0 rgba(0,0,0,1),
+      8px 8px 20px rgba(0,0,0,0.8);
+    letter-spacing: 4px;
+    line-height: 1;
+    text-transform: uppercase;
+    max-width: 90%;
+    word-wrap: break-word;
+  }
+
+  .logo-element {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+    background: #fff;
+  }
+
+  .action-bar {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+  }
+
+  .btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    background: #ff0000;
+    color: #fff;
+    box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+  }
+
+  .btn-primary:hover {
+    background: #cc0000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+  }
+
+  .btn-secondary {
+    background: #2a2a2a;
+    color: #fff;
+    border: 2px solid #444;
+  }
+
+  .btn-secondary:hover {
+    background: #333;
+    border-color: #666;
+  }
+
+  /* Template Styles */
+  .style-gradient .main-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+  }
+
+  .style-neon .main-title {
+    color: #0ff;
+    text-shadow: 
+      0 0 10px #0ff,
+      0 0 20px #0ff,
+      0 0 40px #0ff,
+      0 0 80px #0ff;
+  }
+
+  .style-outline .main-title {
+    color: transparent;
+    -webkit-text-stroke: 3px #fff;
+    text-stroke: 3px #fff;
+  }
+
+  .style-shadow .main-title {
+    color: #fff;
+    text-shadow: 
+      5px 5px 0 #ff0000,
+      10px 10px 20px rgba(0,0,0,0.8);
+  }
+
+  @media (max-width: 1200px) {
+    body {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+    }
+
+    .main-content {
+      padding: 20px;
+    }
+
+    .action-bar {
+      position: relative;
+      bottom: 0;
+      right: 0;
+      justify-content: center;
+      margin-top: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h1>🎬 Thumbnail Studio</h1>
+  <p>Create professional YouTube thumbnails in seconds</p>
+
+  <div class="section">
+    <h3>📝 Text Content</h3>
+    
+    <div class="input-group">
+      <label>Subtitle / Top Text</label>
+      <textarea id="subtitleInput">The Natural Beauty of Village Life | Village Beauty | 🌾 அழகான கிராம வாழ்க்கை</textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Main Heading</label>
+      <input type="text" id="headingInput" value="Nature & Peace">
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🎨 Style Template</h3>
+    <div class="templates">
+      <div class="template-card t1 active" onclick="setTemplate('default')" data-template="default"></div>
+      <div class="template-card t2" onclick="setTemplate('gradient')" data-template="gradient"></div>
+      <div class="template-card t3" onclick="setTemplate('neon')" data-template="neon"></div>
+      <div class="template-card t4" onclick="setTemplate('outline')" data-template="outline"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🎯 Text Settings</h3>
+    
+    <div class="slider-group">
+      <label>
+        <span>Main Text Size</span>
+        <span id="fontSizeValue">120px</span>
+      </label>
+      <input type="range" id="fontSizeSlider" min="60" max="200" value="120">
+    </div>
+
+    <div class="slider-group">
+      <label>
+        <span>Subtitle Size</span>
+        <span id="subSizeValue">32px</span>
+      </label>
+      <input type="range" id="subSizeSlider" min="20" max="50" value="32">
+    </div>
+
+    <div class="input-group" style="margin-top: 20px;">
+      <label>Text Colors</label>
+      <div class="color-row">
+        <div class="color-input">
+          <input type="color" id="mainColor" value="#ffffff">
+          <label>Main</label>
+        </div>
+        <div class="color-input">
+          <input type="color" id="subColor" value="#ffffff">
+          <label>Subtitle</label>
+        </div>
+        <div class="color-input">
+          <input type="color" id="shadowColor" value="#000000">
+          <label>Shadow</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🖼️ Images</h3>
+    
+    <div class="input-group">
+      <label>Background Image</label>
+      <label class="file-upload" id="bgDropZone">
+        <span class="upload-icon">📁</span>
+        <span class="upload-text">Drag & Drop or Click to Upload</span>
+      </label>
+      <input type="file" id="bgUpload" accept="image/*">
+      <input type="text" id="bgUrl" placeholder="Or paste image URL" style="margin-top: 10px;">
+      <img id="bgPreview" class="preview-image" style="display: none;" alt="Background Preview">
+    </div>
+
+    <div class="input-group">
+      <label>Logo Image</label>
+      <label class="file-upload" id="logoDropZone">
+        <span class="upload-icon">📁</span>
+        <span class="upload-text">Drag & Drop or Click to Upload</span>
+      </label>
+      <input type="file" id="logoUpload" accept="image/*">
+      <input type="text" id="logoUrl" placeholder="Or paste logo URL" style="margin-top: 10px;">
+      <img id="logoPreview" class="preview-image" style="display: none;" alt="Logo Preview">
+    </div>
+
+    <div class="input-group">
+      <label>Overlay Images (Multiple) 🆕</label>
+      <label class="file-upload" id="overlayDropZone">
+        <span class="upload-icon">🖼️</span>
+        <span class="upload-text">Drag & Drop Multiple Images Here</span>
+      </label>
+      <input type="file" id="overlayUpload" accept="image/*" multiple>
+      <div id="overlayPreviewContainer" style="display: none; margin-top: 10px;">
+        <div style="color: #aaa; font-size: 12px; margin-bottom: 5px;">Uploaded Images:</div>
+        <div id="overlayPreviews" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>⚙️ Options</h3>
+    
+    <div class="toggle-group">
+      <label style="color: #aaa; flex: 1;">Show Subtitle</label>
+      <label class="toggle">
+        <input type="checkbox" id="showSubtitle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="toggle-group" style="margin-top: 15px;">
+      <label style="color: #aaa; flex: 1;">Show Logo</label>
+      <label class="toggle">
+        <input type="checkbox" id="showLogo" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="toggle-group" style="margin-top: 15px;">
+      <label style="color: #aaa; flex: 1;">Dark Overlay</label>
+      <label class="toggle">
+        <input type="checkbox" id="showOverlay" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="canvas-wrapper">
+    <div class="thumbnail-canvas" id="canvas">
+      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&h=1080&fit=crop" class="bg-layer" id="bgImage" alt="Background">
+      <div class="overlay-layer" id="overlay"></div>
+      <div class="content-layer">
+        <div class="subtitle" id="subtitleText">The Natural Beauty of Village Life | Village Beauty | 🌾 அழகான கிராம வாழ்க்கை</div>
+        <div class="main-title" id="mainText">Nature & Peace</div>
+        <img src="https://via.placeholder.com/150/4A90E2/ffffff?text=LOGO" class="logo-element" id="logoImg" alt="Logo">
+      </div>
+      <div id="overlayImagesContainer"></div>
+    </div>
+  </div>
+</div>
+
+<div class="action-bar">
+  <button class="btn btn-secondary" onclick="resetAll()">🔄 Reset</button>
+  <button class="btn btn-primary" onclick="downloadImage()">⬇️ Download HD</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+  // Get all elements
+  const elements = {
+    subtitleInput: document.getElementById('subtitleInput'),
+    headingInput: document.getElementById('headingInput'),
+    fontSizeSlider: document.getElementById('fontSizeSlider'),
+    subSizeSlider: document.getElementById('subSizeSlider'),
+    mainColor: document.getElementById('mainColor'),
+    subColor: document.getElementById('subColor'),
+    shadowColor: document.getElementById('shadowColor'),
+    bgUpload: document.getElementById('bgUpload'),
+    bgUrl: document.getElementById('bgUrl'),
+    bgDropZone: document.getElementById('bgDropZone'),
+    bgPreview: document.getElementById('bgPreview'),
+    logoUpload: document.getElementById('logoUpload'),
+    logoUrl: document.getElementById('logoUrl'),
+    logoDropZone: document.getElementById('logoDropZone'),
+    logoPreview: document.getElementById('logoPreview'),
+    overlayUpload: document.getElementById('overlayUpload'),
+    overlayDropZone: document.getElementById('overlayDropZone'),
+    overlayPreviews: document.getElementById('overlayPreviews'),
+    overlayPreviewContainer: document.getElementById('overlayPreviewContainer'),
+    overlayImagesContainer: document.getElementById('overlayImagesContainer'),
+    showSubtitle: document.getElementById('showSubtitle'),
+    showLogo: document.getElementById('showLogo'),
+    showOverlay: document.getElementById('showOverlay'),
+    
+    subtitleText: document.getElementById('subtitleText'),
+    mainText: document.getElementById('mainText'),
+    bgImage: document.getElementById('bgImage'),
+    logoImg: document.getElementById('logoImg'),
+    overlay: document.getElementById('overlay'),
+    canvas: document.getElementById('canvas')
+  };
+
+  let overlayImages = [];
+
+  // Drag and Drop functionality
+  function setupDragDrop(dropZone, fileInput, callback) {
+    // Click to upload
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // Highlight drop zone when dragging over
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => {
+        dropZone.classList.add('drag-over');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => {
+        dropZone.classList.remove('drag-over');
+      });
+    });
+
+    // Handle dropped files
+    dropZone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      callback(files);
+    });
+
+    // Handle file input change
+    fileInput.addEventListener('change', (e) => {
+      callback(e.target.files);
+    });
+  }
+
+  // Background image drag & drop
+  setupDragDrop(elements.bgDropZone, elements.bgUpload, (files) => {
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        elements.bgImage.src = e.target.result;
+        elements.bgPreview.src = e.target.result;
+        elements.bgPreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Logo image drag & drop
+  setupDragDrop(elements.logoDropZone, elements.logoUpload, (files) => {
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        elements.logoImg.src = e.target.result;
+        elements.logoPreview.src = e.target.result;
+        elements.logoPreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Multiple overlay images drag & drop
+  setupDragDrop(elements.overlayDropZone, elements.overlayUpload, (files) => {
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        addOverlayImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  function addOverlayImage(src) {
+    const id = 'overlay-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+    overlayImages.push({ id, src });
+
+    // Add preview thumbnail
+    const previewDiv = document.createElement('div');
+    previewDiv.className = 'overlay-item';
+    previewDiv.innerHTML = `
+      <img src="${src}" alt="Overlay">
+      <button class="remove-btn" onclick="removeOverlayImage('${id}')">×</button>
+    `;
+    elements.overlayPreviews.appendChild(previewDiv);
+    elements.overlayPreviewContainer.style.display = 'block';
+
+    // Add to canvas
+    const overlayImg = document.createElement('img');
+    overlayImg.src = src;
+    overlayImg.className = 'overlay-image';
+    overlayImg.id = id;
+    overlayImg.style.width = '200px';
+    overlayImg.style.height = 'auto';
+    overlayImg.style.left = '50px';
+    overlayImg.style.top = '50px';
+    overlayImg.draggable = true;
+
+    // Make image draggable within canvas
+    let isDragging = false;
+    let startX, startY, initialLeft, initialTop;
+
+    overlayImg.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      overlayImg.classList.add('dragging');
+      startX = e.clientX;
+      startY = e.clientY;
+      const rect = overlayImg.getBoundingClientRect();
+      const canvasRect = elements.canvas.getBoundingClientRect();
+      initialLeft = rect.left - canvasRect.left;
+      initialTop = rect.top - canvasRect.top;
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+      const canvasRect = elements.canvas.getBoundingClientRect();
+      const scaleX = 1280 / canvasRect.width;
+      const scaleY = 720 / canvasRect.height;
+      
+      overlayImg.style.left = (initialLeft + deltaX) * scaleX + 'px';
+      overlayImg.style.top = (initialTop + deltaY) * scaleY + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        overlayImg.classList.remove('dragging');
+      }
+    });
+
+    elements.overlayImagesContainer.appendChild(overlayImg);
+  }
+
+  window.removeOverlayImage = function(id) {
+    overlayImages = overlayImages.filter(img => img.id !== id);
+    document.getElementById(id).remove();
+    
+    // Rebuild preview container
+    elements.overlayPreviews.innerHTML = '';
+    overlayImages.forEach(img => {
+      const previewDiv = document.createElement('div');
+      previewDiv.className = 'overlay-item';
+      previewDiv.innerHTML = `
+        <img src="${img.src}" alt="Overlay">
+        <button class="remove-btn" onclick="removeOverlayImage('${img.id}')">×</button>
+      `;
+      elements.overlayPreviews.appendChild(previewDiv);
+    });
+
+    if (overlayImages.length === 0) {
+      elements.overlayPreviewContainer.style.display = 'none';
+    }
+  };
+
+  // Text updates
+  elements.subtitleInput.addEventListener('input', (e) => {
+    elements.subtitleText.textContent = e.target.value;
+  });
+
+  elements.headingInput.addEventListener('input', (e) => {
+    elements.mainText.textContent = e.target.value;
+  });
+
+  // Font size
+  elements.fontSizeSlider.addEventListener('input', (e) => {
+    const size = e.target.value;
+    elements.mainText.style.fontSize = size + 'px';
+    document.getElementById('fontSizeValue').textContent = size + 'px';
+  });
+
+  elements.subSizeSlider.addEventListener('input', (e) => {
+    const size = e.target.value;
+    elements.subtitleText.style.fontSize = size + 'px';
+    document.getElementById('subSizeValue').textContent = size + 'px';
+  });
+
+  // Colors
+  elements.mainColor.addEventListener('input', (e) => {
+    elements.mainText.style.color = e.target.value;
+  });
+
+  elements.subColor.addEventListener('input', (e) => {
+    elements.subtitleText.style.color = e.target.value;
+  });
+
+  elements.bgUrl.addEventListener('change', (e) => {
+    if (e.target.value) {
+      elements.bgImage.src = e.target.value;
+      elements.bgPreview.src = e.target.value;
+      elements.bgPreview.style.display = 'block';
+    }
+  });
+
+  elements.logoUrl.addEventListener('change', (e) => {
+    if (e.target.value) {
+      elements.logoImg.src = e.target.value;
+      elements.logoPreview.src = e.target.value;
+      elements.logoPreview.style.display = 'block';
+    }
+  });
+
+  // Toggles
+  elements.showSubtitle.addEventListener('change', (e) => {
+    elements.subtitleText.style.display = e.target.checked ? 'block' : 'none';
+  });
+
+  elements.showLogo.addEventListener('change', (e) => {
+    elements.logoImg.style.display = e.target.checked ? 'block' : 'none';
+  });
+
+  elements.showOverlay.addEventListener('change', (e) => {
+    elements.overlay.style.display = e.target.checked ? 'block' : 'none';
+  });
+
+  // Template selection
+  function setTemplate(style) {
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.classList.remove('active');
+    });
+    document.querySelector(`[data-template="${style}"]`).classList.add('active');
+    
+    elements.canvas.className = 'thumbnail-canvas style-' + style;
+  }
+
+  // Reset function
+  function resetAll() {
+    location.reload();
+  }
+
+  // Download function with automatic compression
+  async function downloadImage() {
+    try {
+      // Show loading message
+      const downloadBtn = document.querySelector('.btn-primary');
+      const originalText = downloadBtn.innerHTML;
+      downloadBtn.innerHTML = '⏳ Processing...';
+      downloadBtn.disabled = true;
+
+      const canvas = await html2canvas(elements.canvas, {
+        width: 1280,
+        height: 720,
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#000000'
+      });
+      
+      // Convert to blob with compression
+      let quality = 0.92; // Start with high quality
+      let blob = await new Promise(resolve => {
+        canvas.toBlob(resolve, 'image/jpeg', quality);
+      });
+
+      // If file is too large, reduce quality until under 2MB
+      while (blob.size > 2 * 1024 * 1024 && quality > 0.5) {
+        quality -= 0.05;
+        blob = await new Promise(resolve => {
+          canvas.toBlob(resolve, 'image/jpeg', quality);
+        });
+      }
+
+      // Create download link
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = 'youtube-thumbnail-optimized.jpg';
+      link.href = url;
+      link.click();
+      
+      // Cleanup
+      URL.revokeObjectURL(url);
+
+      // Show success message
+      const fileSize = (blob.size / 1024).toFixed(0);
+      downloadBtn.innerHTML = `✅ Downloaded (${fileSize}KB)`;
+      setTimeout(() => {
+        downloadBtn.innerHTML = originalText;
+        downloadBtn.disabled = false;
+      }, 2000);
+
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Download tip: Right-click on the thumbnail and select "Save image as..."');
+      downloadBtn.innerHTML = originalText;
+      downloadBtn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>
