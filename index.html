@@ -3,1026 +3,2151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pro YouTube Thumbnail Maker</title>
+<title>Pro Thumbnail Studio</title>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  body {
-    background: #0f0f0f;
-    font-family: 'Arial', sans-serif;
-    display: flex;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 380px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #667eea;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.logo h1 {
+  font-size: 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #667eea;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.3s;
+  font-family: inherit;
+  background: #fff;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea.input-field {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.slider-container {
+  margin-bottom: 15px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.slider-value {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  cursor: pointer;
+  border: none;
+}
+
+.file-input {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input input[type="file"] {
+  position: absolute;
+  left: -9999px;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.file-label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: #f5f5f5;
+  color: #555;
+  border: 2px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+  background: #fff;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.shape-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.shape-btn {
+  padding: 15px;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.shape-btn:hover {
+  border-color: #667eea;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  transform: translateY(-2px);
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  background: #f8f8f8;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.toggle-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 26px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 26px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+}
+
+/* Main Canvas Area */
+.canvas-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.canvas-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.canvas-header h2 {
+  font-size: 20px;
+  color: #333;
+  font-weight: 700;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn-outline {
+  background: #fff;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.action-btn-outline:hover {
+  background: #667eea;
+  color: #fff;
+}
+
+.action-btn-primary {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.action-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.canvas-container {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.thumbnail {
+  width: 1280px;
+  height: 720px;
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  background: #000;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  aspect-ratio: 16 / 9;
+}
+
+.bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.overlay-dark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
+}
+
+.content-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+}
+
+.subtitle {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 3px 3px 10px rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  cursor: move;
+  user-select: none;
+  border: 2px dashed transparent;
+  transition: border-color 0.2s;
+}
+
+.subtitle:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.main-title {
+  font-size: 110px;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  text-shadow: 5px 5px 0 rgba(0,0,0,0.7), 10px 10px 25px rgba(0,0,0,0.5);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: move;
+  user-select: none;
+  padding: 10px;
+  border: 2px dashed transparent;
+  transition: border-color 0.2s;
+}
+
+.main-title:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.logo-img {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  background: #fff;
+  z-index: 5;
+}
+
+/* Draggable Items */
+.overlay-item,
+.text-item,
+.shape-item {
+  position: absolute;
+  cursor: move;
+  z-index: 10;
+}
+
+.overlay-item {
+  border: 3px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.overlay-item:hover {
+  border-color: #ff6b6b;
+}
+
+.overlay-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.text-item {
+  padding: 5px 15px;
+  border: 2px dashed transparent;
+  white-space: nowrap;
+}
+
+.text-item:hover {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.shape-item {
+  border: 3px solid transparent;
+}
+
+.shape-item:hover {
+  border-color: #60a5fa;
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: -15px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border: 4px solid #ff6b6b;
+  border-radius: 50%;
+  cursor: nwse-resize;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.resize-handle:hover {
+  transform: scale(1.2);
+}
+
+.shape-item .resize-handle {
+  border-color: #60a5fa;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .app {
+    flex-direction: column;
+    overflow-y: auto;
+    height: auto;
     min-height: 100vh;
   }
-
+  
   .sidebar {
-    width: 380px;
-    background: #1a1a1a;
-    padding: 30px;
-    overflow-y: auto;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
-  }
-
-  .sidebar h1 {
-    color: #fff;
-    font-size: 28px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .sidebar p {
-    color: #888;
-    font-size: 14px;
-    margin-bottom: 30px;
-  }
-
-  .section {
-    margin-bottom: 30px;
-  }
-
-  .section h3 {
-    color: #fff;
-    font-size: 16px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-left: 4px solid #ff0000;
-    padding-left: 10px;
-  }
-
-  .input-group {
-    margin-bottom: 20px;
-  }
-
-  .input-group label {
-    display: block;
-    color: #aaa;
-    font-size: 13px;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .input-group input[type="text"],
-  .input-group textarea,
-  .input-group select {
     width: 100%;
-    padding: 12px 15px;
-    background: #2a2a2a;
-    border: 2px solid #333;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 14px;
-    transition: all 0.3s;
-    font-family: inherit;
+    max-width: none;
   }
-
-  .input-group input:focus,
-  .input-group textarea:focus,
-  .input-group select:focus {
-    outline: none;
-    border-color: #ff0000;
-    background: #333;
-  }
-
-  .input-group textarea {
-    min-height: 90px;
-    resize: vertical;
-  }
-
-  .input-group input[type="file"] {
-    display: none;
-  }
-
-  .file-upload {
-    padding: 12px 20px;
-    background: #2a2a2a;
-    border: 2px dashed #555;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    color: #aaa;
-    position: relative;
-  }
-
-  .file-upload:hover {
-    border-color: #ff0000;
-    background: #333;
-  }
-
-  .file-upload.drag-over {
-    border-color: #00ff00;
-    background: rgba(0, 255, 0, 0.1);
-    transform: scale(1.02);
-  }
-
-  .file-upload .upload-icon {
-    font-size: 24px;
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  .file-upload .upload-text {
-    font-size: 13px;
-  }
-
-  .preview-image {
+  
+  .canvas-area {
     width: 100%;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-top: 10px;
-    border: 2px solid #444;
   }
-
-  .overlay-item {
-    position: relative;
-    border: 2px solid #444;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .overlay-item img {
-    width: 100%;
-    height: 60px;
-    object-fit: cover;
-  }
-
-  .overlay-item .remove-btn {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background: #ff0000;
-    color: #fff;
-    border: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 12px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .overlay-image {
-    position: absolute;
-    z-index: 3;
-    cursor: move;
-    border: 2px solid transparent;
-    transition: border-color 0.3s;
-  }
-
-  .overlay-image:hover {
-    border-color: #ff0000;
-  }
-
-  .overlay-image.dragging {
-    opacity: 0.7;
-    border-color: #00ff00;
-  }
-
-  .templates {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .template-card {
-    aspect-ratio: 16/9;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: all 0.3s;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .template-card:hover {
-    border-color: #ff0000;
-    transform: scale(1.05);
-  }
-
-  .template-card.active {
-    border-color: #ff0000;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-  }
-
-  .template-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,0,0,0.2), rgba(0,0,0,0.5));
-  }
-
-  .t1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-  .t2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-  .t3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-  .t4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-
-  .slider-group {
-    margin-bottom: 20px;
-  }
-
-  .slider-group label {
-    display: flex;
-    justify-content: space-between;
-    color: #aaa;
-    font-size: 13px;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .slider-group input[type="range"] {
-    width: 100%;
-    height: 6px;
-    background: #333;
-    border-radius: 5px;
-    outline: none;
-    -webkit-appearance: none;
-  }
-
-  .slider-group input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: #ff0000;
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-  }
-
-  .color-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  .color-input {
-    position: relative;
-  }
-
-  .color-input input[type="color"] {
-    width: 100%;
-    height: 50px;
-    border: 2px solid #333;
-    border-radius: 8px;
-    cursor: pointer;
-    background: none;
-  }
-
-  .color-input label {
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 11px;
-    color: #666;
-  }
-
-  .toggle-group {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .toggle {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 26px;
-  }
-
-  .toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    inset: 0;
-    background: #333;
-    border-radius: 26px;
-    transition: 0.3s;
-  }
-
-  .toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-    background: #fff;
-    border-radius: 50%;
-    transition: 0.3s;
-  }
-
-  .toggle input:checked + .toggle-slider {
-    background: #ff0000;
-  }
-
-  .toggle input:checked + .toggle-slider:before {
-    transform: translateX(24px);
-  }
-
-  .main-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    background: #0a0a0a;
-  }
-
-  .canvas-wrapper {
-    position: relative;
-  }
-
-  .thumbnail-canvas {
-    width: 1280px;
-    height: 720px;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 16/9;
-    position: relative;
-    background: #000;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  }
-
-  .bg-layer {
-    position: absolute;
-    inset: 0;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-
-  .overlay-layer {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
-    z-index: 1;
-  }
-
-  .content-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px;
-  }
-
-  .subtitle {
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 85%;
-    text-align: center;
-    color: #fff;
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1.3;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
-    padding: 20px 35px;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-  }
-
-  .main-title {
-    font-size: 120px;
-    font-weight: 900;
-    color: #fff;
-    text-align: center;
-    text-shadow: 
-      4px 4px 0 rgba(0,0,0,1),
-      8px 8px 20px rgba(0,0,0,0.8);
-    letter-spacing: 4px;
-    line-height: 1;
-    text-transform: uppercase;
-    max-width: 90%;
-    word-wrap: break-word;
-  }
-
-  .logo-element {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid #fff;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-    background: #fff;
-  }
-
-  .action-bar {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    display: flex;
-    gap: 15px;
-    z-index: 1000;
-  }
-
-  .btn {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .btn-primary {
-    background: #ff0000;
-    color: #fff;
-    box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
-  }
-
-  .btn-primary:hover {
-    background: #cc0000;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
-  }
-
-  .btn-secondary {
-    background: #2a2a2a;
-    color: #fff;
-    border: 2px solid #444;
-  }
-
-  .btn-secondary:hover {
-    background: #333;
-    border-color: #666;
-  }
-
-  /* Template Styles */
-  .style-gradient .main-title {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-  }
-
-  .style-neon .main-title {
-    color: #0ff;
-    text-shadow: 
-      0 0 10px #0ff,
-      0 0 20px #0ff,
-      0 0 40px #0ff,
-      0 0 80px #0ff;
-  }
-
-  .style-outline .main-title {
-    color: transparent;
-    -webkit-text-stroke: 3px #fff;
-    text-stroke: 3px #fff;
-  }
-
-  .style-shadow .main-title {
-    color: #fff;
-    text-shadow: 
-      5px 5px 0 #ff0000,
-      10px 10px 20px rgba(0,0,0,0.8);
-  }
-
-  @media (max-width: 1200px) {
-    body {
-      flex-direction: column;
-    }
-    
-    .sidebar {
-      width: 100%;
-    }
-
-    .main-content {
-      padding: 20px;
-    }
-
-    .action-bar {
-      position: relative;
-      bottom: 0;
-      right: 0;
-      justify-content: center;
-      margin-top: 20px;
-    }
-  }
+}
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-  <h1>🎬 Thumbnail Studio</h1>
-  <p>Create professional YouTube thumbnails in seconds</p>
-
-  <div class="section">
-    <h3>📝 Text Content</h3>
-    
-    <div class="input-group">
-      <label>Subtitle / Top Text</label>
-      <textarea id="subtitleInput">The Natural Beauty of Village Life | Village Beauty | 🌾 அழகான கிராம வாழ்க்கை</textarea>
+<div class="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">🎬</div>
+      <h1>Thumbnail Studio</h1>
     </div>
 
-    <div class="input-group">
-      <label>Main Heading</label>
-      <input type="text" id="headingInput" value="Nature & Peace">
-    </div>
-  </div>
+    <!-- Text Section -->
+    <div class="section">
+      <div class="section-title">📝 TEXT CONTENT</div>
+      
+      <div class="input-group">
+        <label class="input-label">Top Subtitle</label>
+        <textarea class="input-field" id="subtitle" placeholder="Enter subtitle text">The Natural Beauty of Village Life | Village Beauty 🌾</textarea>
+      </div>
 
-  <div class="section">
-    <h3>🎨 Style Template</h3>
-    <div class="templates">
-      <div class="template-card t1 active" onclick="setTemplate('default')" data-template="default"></div>
-      <div class="template-card t2" onclick="setTemplate('gradient')" data-template="gradient"></div>
-      <div class="template-card t3" onclick="setTemplate('neon')" data-template="neon"></div>
-      <div class="template-card t4" onclick="setTemplate('outline')" data-template="outline"></div>
-    </div>
-  </div>
+      <div class="input-group">
+        <label class="input-label">Main Heading</label>
+        <input type="text" class="input-field" id="heading" value="Nature & Peace" placeholder="Enter main heading">
+      </div>
 
-  <div class="section">
-    <h3>🎯 Text Settings</h3>
-    
-    <div class="slider-group">
-      <label>
-        <span>Main Text Size</span>
-        <span id="fontSizeValue">120px</span>
-      </label>
-      <input type="range" id="fontSizeSlider" min="60" max="200" value="120">
-    </div>
-
-    <div class="slider-group">
-      <label>
-        <span>Subtitle Size</span>
-        <span id="subSizeValue">32px</span>
-      </label>
-      <input type="range" id="subSizeSlider" min="20" max="50" value="32">
-    </div>
-
-    <div class="input-group" style="margin-top: 20px;">
-      <label>Text Colors</label>
-      <div class="color-row">
-        <div class="color-input">
-          <input type="color" id="mainColor" value="#ffffff">
-          <label>Main</label>
+      <div class="slider-container">
+        <div class="slider-header">
+          <label class="input-label" style="margin: 0;">Text Size</label>
+          <span class="slider-value" id="sizeDisplay">110px</span>
         </div>
-        <div class="color-input">
-          <input type="color" id="subColor" value="#ffffff">
-          <label>Subtitle</label>
+        <input type="range" class="slider" id="sizeSlider" min="40" max="200" value="110">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Text Color</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" id="textColor" value="#ffffff" style="width: 60px; height: 40px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+          <input type="text" class="input-field" id="textColorHex" value="#ffffff" placeholder="#ffffff" style="flex: 1; text-transform: uppercase;">
         </div>
-        <div class="color-input">
-          <input type="color" id="shadowColor" value="#000000">
-          <label>Shadow</label>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Text Stroke/Outline</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" id="textStroke" value="#000000" style="width: 60px; height: 40px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+          <input type="range" id="strokeWidth" min="0" max="10" value="0" style="flex: 1;">
+          <span class="slider-value" id="strokeValue">0px</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Subtitle Color</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" id="subtitleColor" value="#ffffff" style="width: 60px; height: 40px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+          <input type="text" class="input-field" id="subtitleColorHex" value="#ffffff" placeholder="#ffffff" style="flex: 1; text-transform: uppercase;">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Background Box Color (Subtitle)</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" id="subtitleBg" value="#000000" style="width: 60px; height: 40px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+          <input type="range" id="subtitleOpacity" min="0" max="100" value="30" style="flex: 1;">
+          <span class="slider-value" id="opacityValue">30%</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Main Title Position</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+          <button class="btn btn-secondary" onclick="moveTitleTo('top')">⬆️ Top</button>
+          <button class="btn btn-secondary" onclick="moveTitleTo('center')">⏺️ Center</button>
+          <button class="btn btn-secondary" onclick="moveTitleTo('bottom')">⬇️ Bottom</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Subtitle Position</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+          <button class="btn btn-secondary" onclick="moveSubtitleTo('top')">⬆️ Top</button>
+          <button class="btn btn-secondary" onclick="moveSubtitleTo('center')">⏺️ Center</button>
+          <button class="btn btn-secondary" onclick="moveSubtitleTo('bottom')">⬇️ Bottom</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="addText()">➕ Add Custom Text</button>
+      
+      <div style="margin-top: 15px;">
+        <label class="input-label">Quick Position Text:</label>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+          <button class="btn btn-secondary" onclick="addTextAt('top')">⬆️ Top</button>
+          <button class="btn btn-secondary" onclick="addTextAt('center')">⏺️ Center</button>
+          <button class="btn btn-secondary" onclick="addTextAt('bottom')">⬇️ Bottom</button>
+          <button class="btn btn-secondary" onclick="addTextAt('left')">⬅️ Left</button>
+          <button class="btn btn-secondary" onclick="addTextAt('right')">➡️ Right</button>
+          <button class="btn btn-secondary" onclick="addTextAt('topleft')">↖️ Top-Left</button>
+          <button class="btn btn-secondary" onclick="addTextAt('topright')">↗️ Top-Right</button>
+          <button class="btn btn-secondary" onclick="addTextAt('bottomleft')">↙️ Bottom-Left</button>
+          <button class="btn btn-secondary" onclick="addTextAt('bottomright')">↘️ Bottom-Right</button>
         </div>
       </div>
     </div>
+
+    <!-- Quick Color Presets -->
+    <div class="section">
+      <div class="section-title">🎨 QUICK COLOR PRESETS</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+        <div style="width: 100%; height: 40px; background: #FF0000; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#FF0000')" title="Red"></div>
+        <div style="width: 100%; height: 40px; background: #00FF00; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#00FF00')" title="Green"></div>
+        <div style="width: 100%; height: 40px; background: #0000FF; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#0000FF')" title="Blue"></div>
+        <div style="width: 100%; height: 40px; background: #FFFF00; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#FFFF00')" title="Yellow"></div>
+        <div style="width: 100%; height: 40px; background: #FF00FF; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#FF00FF')" title="Magenta"></div>
+        <div style="width: 100%; height: 40px; background: #00FFFF; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#00FFFF')" title="Cyan"></div>
+        <div style="width: 100%; height: 40px; background: #FFA500; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#FFA500')" title="Orange"></div>
+        <div style="width: 100%; height: 40px; background: #800080; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#800080')" title="Purple"></div>
+        <div style="width: 100%; height: 40px; background: #FFFFFF; border-radius: 8px; cursor: pointer; border: 2px solid #333;" onclick="applyColor('#FFFFFF')" title="White"></div>
+        <div style="width: 100%; height: 40px; background: #000000; border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#000000')" title="Black"></div>
+        <div style="width: 100%; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#667eea')" title="Purple Gradient"></div>
+        <div style="width: 100%; height: 40px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 8px; cursor: pointer; border: 2px solid #fff;" onclick="applyColor('#f093fb')" title="Pink Gradient"></div>
+      </div>
+    </div>
+
+    <!-- Shapes Section -->
+    <div class="section">
+      <div class="section-title">🔷 ADD SHAPES</div>
+      
+      <div class="input-group">
+        <label class="input-label">Shape Color</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" id="shapeColor" value="#ff6b6b" style="width: 60px; height: 40px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+          <input type="text" class="input-field" id="shapeColorHex" value="#ff6b6b" placeholder="#ff6b6b" style="flex: 1; text-transform: uppercase;">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Shape Opacity</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="range" id="shapeOpacity" min="0" max="100" value="100" style="flex: 1;">
+          <span class="slider-value" id="shapeOpacityValue">100%</span>
+        </div>
+      </div>
+
+      <div class="shape-grid">
+        <div class="shape-btn" onclick="addShape('circle')">⭕ Circle</div>
+        <div class="shape-btn" onclick="addShape('rectangle')">⬜ Rectangle</div>
+        <div class="shape-btn" onclick="addShape('arrow')">➡️ Arrow</div>
+        <div class="shape-btn" onclick="addShape('star')">⭐ Star</div>
+      </div>
+    </div>
+
+    <!-- Corner Cards Section -->
+    <div class="section">
+      <div class="section-title">🎴 CORNER CARDS & BADGES</div>
+      
+      <div class="input-group">
+        <label class="input-label">Card Style:</label>
+        <select id="cardStyle" class="input-field">
+          <option value="badge">🏷️ Badge Style</option>
+          <option value="ribbon">🎀 Ribbon Style</option>
+          <option value="triangle">📐 Triangle Corner</option>
+          <option value="rounded">⬜ Rounded Box</option>
+          <option value="circle">⭕ Circle Badge</option>
+          <option value="starburst">💥 Starburst</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Card Text:</label>
+        <input type="text" id="cardText" class="input-field" value="NEW" placeholder="Enter text">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Card Color:</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" id="cardColor" value="#ff0000" style="width: 60px; height: 40px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Add Card to Corner:</label>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+          <button class="btn btn-secondary" onclick="addCornerCard('topleft')">↖️ Top Left</button>
+          <button class="btn btn-secondary" onclick="addCornerCard('topright')">↗️ Top Right</button>
+          <button class="btn btn-secondary" onclick="addCornerCard('bottomleft')">↙️ Bottom Left</button>
+          <button class="btn btn-secondary" onclick="addCornerCard('bottomright')">↘️ Bottom Right</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Quick Card Presets:</label>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+          <button class="btn btn-secondary" onclick="addPresetCard('new')">🆕 NEW</button>
+          <button class="btn btn-secondary" onclick="addPresetCard('hot')">🔥 HOT</button>
+          <button class="btn btn-secondary" onclick="addPresetCard('sale')">💰 SALE</button>
+          <button class="btn btn-secondary" onclick="addPresetCard('free')">🎁 FREE</button>
+          <button class="btn btn-secondary" onclick="addPresetCard('trending')">📈 TRENDING</button>
+          <button class="btn btn-secondary" onclick="addPresetCard('live')">🔴 LIVE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Effects Section -->
+    <div class="section">
+      <div class="section-title">✨ EFFECTS & FILTERS</div>
+      
+      <div class="slider-container">
+        <div class="slider-header">
+          <label class="input-label" style="margin: 0;">Background Brightness</label>
+          <span class="slider-value" id="bgBrightnessValue">100%</span>
+        </div>
+        <input type="range" class="slider" id="bgBrightness" min="0" max="200" value="100">
+      </div>
+
+      <div class="slider-container">
+        <div class="slider-header">
+          <label class="input-label" style="margin: 0;">Background Blur</label>
+          <span class="slider-value" id="bgBlurValue">0px</span>
+        </div>
+        <input type="range" class="slider" id="bgBlur" min="0" max="20" value="0">
+      </div>
+
+      <div class="slider-container">
+        <div class="slider-header">
+          <label class="input-label" style="margin: 0;">Shadow Intensity</label>
+          <span class="slider-value" id="shadowValue">8px</span>
+        </div>
+        <input type="range" class="slider" id="shadowIntensity" min="0" max="30" value="8">
+      </div>
+    </div>
+
+    <!-- Images Section -->
+    <div class="section">
+      <div class="section-title">🖼️ UPLOAD IMAGES</div>
+      
+      <div class="input-group">
+        <div class="file-input">
+          <input type="file" id="bgFile" accept="image/*">
+          <label class="file-label" for="bgFile">
+            <span>📷</span> Background Image
+          </label>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="file-input">
+          <input type="file" id="logoFile" accept="image/*">
+          <label class="file-label" for="logoFile">
+            <span>🏷️</span> Logo Image
+          </label>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="file-input">
+          <input type="file" id="overlayFile" accept="image/*" multiple>
+          <label class="file-label" for="overlayFile">
+            <span>🎨</span> Overlay Images (Multiple)
+          </label>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Image Management</label>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+          <button class="btn btn-secondary" onclick="deleteSelected()">🗑️ Delete Selected</button>
+          <button class="btn btn-secondary" onclick="bringToFront()">⬆️ Bring Forward</button>
+          <button class="btn btn-secondary" onclick="sendToBack()">⬇️ Send Backward</button>
+          <button class="btn btn-secondary" onclick="duplicateSelected()">📋 Duplicate</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Align Selected Items</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+          <button class="btn btn-secondary" onclick="alignItems('left')">◀️ Left</button>
+          <button class="btn btn-secondary" onclick="alignItems('center')">⏺️ Center</button>
+          <button class="btn btn-secondary" onclick="alignItems('right')">▶️ Right</button>
+          <button class="btn btn-secondary" onclick="alignItems('top')">🔼 Top</button>
+          <button class="btn btn-secondary" onclick="alignItems('middle')">⏺️ Middle</button>
+          <button class="btn btn-secondary" onclick="alignItems('bottom')">🔽 Bottom</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Selected Item Filters</label>
+        <div class="slider-container">
+          <div class="slider-header">
+            <span style="font-size: 12px; color: #888;">Brightness</span>
+            <span class="slider-value" id="itemBrightValue">100%</span>
+          </div>
+          <input type="range" class="slider" id="itemBrightness" min="0" max="200" value="100">
+        </div>
+        <div class="slider-container">
+          <div class="slider-header">
+            <span style="font-size: 12px; color: #888;">Opacity</span>
+            <span class="slider-value" id="itemOpacityValue">100%</span>
+          </div>
+          <input type="range" class="slider" id="itemOpacity" min="0" max="100" value="100">
+        </div>
+        <div class="slider-container">
+          <div class="slider-header">
+            <span style="font-size: 12px; color: #888;">Rotation</span>
+            <span class="slider-value" id="itemRotateValue">0°</span>
+          </div>
+          <input type="range" class="slider" id="itemRotate" min="0" max="360" value="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Text List Manager -->
+    <div class="section">
+      <div class="section-title">📋 TEXT MANAGER</div>
+      <div id="textList" style="max-height: 200px; overflow-y: auto; background: #f8f8f8; border-radius: 8px; padding: 10px;">
+        <p style="text-align: center; color: #999; font-size: 13px;">No text added yet</p>
+      </div>
+    </div>
+
+    <!-- Image List Manager -->
+    <div class="section">
+      <div class="section-title">🖼️ IMAGE MANAGER</div>
+      <div id="imageList" style="max-height: 200px; overflow-y: auto; background: #f8f8f8; border-radius: 8px; padding: 10px;">
+        <p style="text-align: center; color: #999; font-size: 13px;">No images added yet</p>
+      </div>
+    </div>
+
+    <!-- Settings Section -->
+    <div class="section">
+      <div class="section-title">⚙️ SETTINGS</div>
+      
+      <div class="toggle-group">
+        <span class="toggle-label">Show Subtitle</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="showSubtitle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-group">
+        <span class="toggle-label">Show Logo</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="showLogo" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-group">
+        <span class="toggle-label">Dark Overlay</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="showOverlay" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Project Section -->
+    <div class="section">
+      <div class="section-title">💾 PROJECT</div>
+      <button class="btn btn-secondary" onclick="saveProject()">💾 Save Project</button>
+      <button class="btn btn-secondary" onclick="loadProject()">📂 Load Project</button>
+      <input type="file" id="projectFile" accept=".json" style="display:none;">
+    </div>
   </div>
 
-  <div class="section">
-    <h3>🖼️ Images</h3>
-    
-    <div class="input-group">
-      <label>Background Image</label>
-      <label class="file-upload" id="bgDropZone">
-        <span class="upload-icon">📁</span>
-        <span class="upload-text">Drag & Drop or Click to Upload</span>
-      </label>
-      <input type="file" id="bgUpload" accept="image/*">
-      <input type="text" id="bgUrl" placeholder="Or paste image URL" style="margin-top: 10px;">
-      <img id="bgPreview" class="preview-image" style="display: none;" alt="Background Preview">
+  <!-- Canvas Area -->
+  <div class="canvas-area">
+    <div class="canvas-header">
+      <h2>🎨 Thumbnail Preview</h2>
+      <div class="action-buttons">
+        <button class="action-btn action-btn-outline" onclick="undo()">↶ Undo</button>
+        <button class="action-btn action-btn-outline" onclick="redo()">↷ Redo</button>
+        <button class="action-btn action-btn-outline" onclick="reset()">🔄 Reset</button>
+        <button class="action-btn action-btn-primary" onclick="download()">⬇️ Download HD</button>
+      </div>
     </div>
 
-    <div class="input-group">
-      <label>Logo Image</label>
-      <label class="file-upload" id="logoDropZone">
-        <span class="upload-icon">📁</span>
-        <span class="upload-text">Drag & Drop or Click to Upload</span>
-      </label>
-      <input type="file" id="logoUpload" accept="image/*">
-      <input type="text" id="logoUrl" placeholder="Or paste logo URL" style="margin-top: 10px;">
-      <img id="logoPreview" class="preview-image" style="display: none;" alt="Logo Preview">
-    </div>
-
-    <div class="input-group">
-      <label>Overlay Images (Multiple) 🆕</label>
-      <label class="file-upload" id="overlayDropZone">
-        <span class="upload-icon">🖼️</span>
-        <span class="upload-text">Drag & Drop Multiple Images Here</span>
-      </label>
-      <input type="file" id="overlayUpload" accept="image/*" multiple>
-      <div id="overlayPreviewContainer" style="display: none; margin-top: 10px;">
-        <div style="color: #aaa; font-size: 12px; margin-bottom: 5px;">Uploaded Images:</div>
-        <div id="overlayPreviews" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;"></div>
+    <div class="canvas-container">
+      <div class="thumbnail" id="thumbnail">
+        <img class="bg-img" id="bgImg" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&h=1080&fit=crop" alt="Background">
+        <div class="overlay-dark" id="overlayDark"></div>
+        <div class="content-layer">
+          <div class="subtitle" id="subtitleEl">The Natural Beauty of Village Life | Village Beauty 🌾</div>
+          <div class="main-title" id="titleEl">Nature & Peace</div>
+        </div>
+        <img class="logo-img" id="logoImg" src="https://via.placeholder.com/150/667eea/fff?text=LOGO" alt="Logo">
+        <div id="overlaysContainer"></div>
+        <div id="textsContainer"></div>
+        <div id="shapesContainer"></div>
       </div>
     </div>
   </div>
-
-  <div class="section">
-    <h3>⚙️ Options</h3>
-    
-    <div class="toggle-group">
-      <label style="color: #aaa; flex: 1;">Show Subtitle</label>
-      <label class="toggle">
-        <input type="checkbox" id="showSubtitle" checked>
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-
-    <div class="toggle-group" style="margin-top: 15px;">
-      <label style="color: #aaa; flex: 1;">Show Logo</label>
-      <label class="toggle">
-        <input type="checkbox" id="showLogo" checked>
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-
-    <div class="toggle-group" style="margin-top: 15px;">
-      <label style="color: #aaa; flex: 1;">Dark Overlay</label>
-      <label class="toggle">
-        <input type="checkbox" id="showOverlay" checked>
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-  </div>
-</div>
-
-<div class="main-content">
-  <div class="canvas-wrapper">
-    <div class="thumbnail-canvas" id="canvas">
-      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&h=1080&fit=crop" class="bg-layer" id="bgImage" alt="Background">
-      <div class="overlay-layer" id="overlay"></div>
-      <div class="content-layer">
-        <div class="subtitle" id="subtitleText">The Natural Beauty of Village Life | Village Beauty | 🌾 அழகான கிராம வாழ்க்கை</div>
-        <div class="main-title" id="mainText">Nature & Peace</div>
-        <img src="https://via.placeholder.com/150/4A90E2/ffffff?text=LOGO" class="logo-element" id="logoImg" alt="Logo">
-      </div>
-      <div id="overlayImagesContainer"></div>
-    </div>
-  </div>
-</div>
-
-<div class="action-bar">
-  <button class="btn btn-secondary" onclick="resetAll()">🔄 Reset</button>
-  <button class="btn btn-primary" onclick="downloadImage()">⬇️ Download HD</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  // Get all elements
-  const elements = {
-    subtitleInput: document.getElementById('subtitleInput'),
-    headingInput: document.getElementById('headingInput'),
-    fontSizeSlider: document.getElementById('fontSizeSlider'),
-    subSizeSlider: document.getElementById('subSizeSlider'),
-    mainColor: document.getElementById('mainColor'),
-    subColor: document.getElementById('subColor'),
-    shadowColor: document.getElementById('shadowColor'),
-    bgUpload: document.getElementById('bgUpload'),
-    bgUrl: document.getElementById('bgUrl'),
-    bgDropZone: document.getElementById('bgDropZone'),
-    bgPreview: document.getElementById('bgPreview'),
-    logoUpload: document.getElementById('logoUpload'),
-    logoUrl: document.getElementById('logoUrl'),
-    logoDropZone: document.getElementById('logoDropZone'),
-    logoPreview: document.getElementById('logoPreview'),
-    overlayUpload: document.getElementById('overlayUpload'),
-    overlayDropZone: document.getElementById('overlayDropZone'),
-    overlayPreviews: document.getElementById('overlayPreviews'),
-    overlayPreviewContainer: document.getElementById('overlayPreviewContainer'),
-    overlayImagesContainer: document.getElementById('overlayImagesContainer'),
-    showSubtitle: document.getElementById('showSubtitle'),
-    showLogo: document.getElementById('showLogo'),
-    showOverlay: document.getElementById('showOverlay'),
-    
-    subtitleText: document.getElementById('subtitleText'),
-    mainText: document.getElementById('mainText'),
-    bgImage: document.getElementById('bgImage'),
-    logoImg: document.getElementById('logoImg'),
-    overlay: document.getElementById('overlay'),
-    canvas: document.getElementById('canvas')
-  };
+const $ = id => document.getElementById(id);
+let data = { overlays: [], texts: [], shapes: [] };
+let history = [];
+let historyIndex = -1;
+let selectedItem = null;
 
-  let overlayImages = [];
+function saveHistory() {
+  history = history.slice(0, historyIndex + 1);
+  history.push(JSON.parse(JSON.stringify(data)));
+  historyIndex++;
+  if (history.length > 50) { history.shift(); historyIndex--; }
+  updateManagers();
+}
+saveHistory();
 
-  // Drag and Drop functionality
-  function setupDragDrop(dropZone, fileInput, callback) {
-    // Click to upload
-    dropZone.addEventListener('click', () => fileInput.click());
+// Make main title draggable
+let titleData = { x: 640, y: 360 };
+const titleEl = $('titleEl');
+let titleDragging = false;
+let titleStartX, titleStartY, titleInitialX, titleInitialY;
 
-    // Prevent default drag behaviors
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, preventDefaults, false);
-    });
+titleEl.addEventListener('mousedown', e => {
+  titleDragging = true;
+  titleStartX = e.clientX;
+  titleStartY = e.clientY;
+  titleInitialX = titleData.x;
+  titleInitialY = titleData.y;
+  titleEl.style.position = 'absolute';
+  titleEl.style.left = titleData.x + 'px';
+  titleEl.style.top = titleData.y + 'px';
+  titleEl.style.transform = 'translate(-50%, -50%)';
+  e.preventDefault();
+});
 
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+document.addEventListener('mousemove', e => {
+  if (!titleDragging) return;
+  const dx = e.clientX - titleStartX;
+  const dy = e.clientY - titleStartY;
+  titleData.x = titleInitialX + dx;
+  titleData.y = titleInitialY + dy;
+  titleEl.style.left = titleData.x + 'px';
+  titleEl.style.top = titleData.y + 'px';
+});
 
-    // Highlight drop zone when dragging over
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropZone.addEventListener(eventName, () => {
-        dropZone.classList.add('drag-over');
-      });
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, () => {
-        dropZone.classList.remove('drag-over');
-      });
-    });
-
-    // Handle dropped files
-    dropZone.addEventListener('drop', (e) => {
-      const files = e.dataTransfer.files;
-      callback(files);
-    });
-
-    // Handle file input change
-    fileInput.addEventListener('change', (e) => {
-      callback(e.target.files);
-    });
+document.addEventListener('mouseup', () => {
+  if (titleDragging) {
+    titleDragging = false;
   }
+});
 
-  // Background image drag & drop
-  setupDragDrop(elements.bgDropZone, elements.bgUpload, (files) => {
-    if (files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        elements.bgImage.src = e.target.result;
-        elements.bgPreview.src = e.target.result;
-        elements.bgPreview.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
+// Make subtitle draggable
+let subtitleData = { x: 640, y: 100 };
+const subtitleEl = $('subtitleEl');
+let subtitleDragging = false;
+let subtitleStartX, subtitleStartY, subtitleInitialX, subtitleInitialY;
+
+subtitleEl.addEventListener('mousedown', e => {
+  subtitleDragging = true;
+  subtitleStartX = e.clientX;
+  subtitleStartY = e.clientY;
+  const currentLeft = parseInt(subtitleEl.style.left) || subtitleData.x;
+  const currentTop = parseInt(subtitleEl.style.top) || subtitleData.y;
+  subtitleInitialX = currentLeft;
+  subtitleInitialY = currentTop;
+  subtitleEl.style.position = 'absolute';
+  subtitleEl.style.transform = 'translateX(-50%)';
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', e => {
+  if (!subtitleDragging) return;
+  const dx = e.clientX - subtitleStartX;
+  const dy = e.clientY - subtitleStartY;
+  subtitleData.x = subtitleInitialX + dx;
+  subtitleData.y = subtitleInitialY + dy;
+  subtitleEl.style.left = subtitleData.x + 'px';
+  subtitleEl.style.top = subtitleData.y + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+  if (subtitleDragging) {
+    subtitleDragging = false;
+  }
+});
+
+// Text controls
+$('subtitle').addEventListener('input', e => {
+  $('subtitleEl').textContent = e.target.value;
+});
+
+$('heading').addEventListener('input', e => {
+  $('titleEl').textContent = e.target.value;
+});
+
+$('sizeSlider').addEventListener('input', e => {
+  $('titleEl').style.fontSize = e.target.value + 'px';
+  $('sizeDisplay').textContent = e.target.value + 'px';
+});
+
+// Text Color
+$('textColor').addEventListener('input', e => {
+  $('titleEl').style.color = e.target.value;
+  $('textColorHex').value = e.target.value.toUpperCase();
+});
+
+$('textColorHex').addEventListener('input', e => {
+  const color = e.target.value;
+  if (/^#[0-9A-F]{6}$/i.test(color)) {
+    $('textColor').value = color;
+    $('titleEl').style.color = color;
+  }
+});
+
+// Text Stroke
+$('textStroke').addEventListener('input', e => {
+  updateTextStroke();
+});
+
+$('strokeWidth').addEventListener('input', e => {
+  $('strokeValue').textContent = e.target.value + 'px';
+  updateTextStroke();
+});
+
+function updateTextStroke() {
+  const color = $('textStroke').value;
+  const width = $('strokeWidth').value;
+  if (width > 0) {
+    $('titleEl').style.webkitTextStroke = width + 'px ' + color;
+    $('titleEl').style.textStroke = width + 'px ' + color;
+  } else {
+    $('titleEl').style.webkitTextStroke = '';
+    $('titleEl').style.textStroke = '';
+  }
+}
+
+// Subtitle Color
+$('subtitleColor').addEventListener('input', e => {
+  $('subtitleEl').style.color = e.target.value;
+  $('subtitleColorHex').value = e.target.value.toUpperCase();
+});
+
+$('subtitleColorHex').addEventListener('input', e => {
+  const color = e.target.value;
+  if (/^#[0-9A-F]{6}$/i.test(color)) {
+    $('subtitleColor').value = color;
+    $('subtitleEl').style.color = color;
+  }
+});
+
+// Subtitle Background
+$('subtitleBg').addEventListener('input', e => {
+  updateSubtitleBg();
+});
+
+$('subtitleOpacity').addEventListener('input', e => {
+  $('opacityValue').textContent = e.target.value + '%';
+  updateSubtitleBg();
+});
+
+function updateSubtitleBg() {
+  const color = $('subtitleBg').value;
+  const opacity = $('subtitleOpacity').value / 100;
+  const hex = color.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  $('subtitleEl').style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+// Shape Color sync
+$('shapeColor').addEventListener('input', e => {
+  $('shapeColorHex').value = e.target.value.toUpperCase();
+});
+
+$('shapeColorHex').addEventListener('input', e => {
+  const color = e.target.value;
+  if (/^#[0-9A-F]{6}$/i.test(color)) {
+    $('shapeColor').value = color;
+  }
+});
+
+// Shape Opacity
+$('shapeOpacity').addEventListener('input', e => {
+  $('shapeOpacityValue').textContent = e.target.value + '%';
+});
+
+// Background Effects
+$('bgBrightness').addEventListener('input', e => {
+  $('bgBrightnessValue').textContent = e.target.value + '%';
+  updateBgFilters();
+});
+
+$('bgBlur').addEventListener('input', e => {
+  $('bgBlurValue').textContent = e.target.value + 'px';
+  updateBgFilters();
+});
+
+function updateBgFilters() {
+  const brightness = $('bgBrightness').value;
+  const blur = $('bgBlur').value;
+  $('bgImg').style.filter = `brightness(${brightness}%) blur(${blur}px)`;
+}
+
+// Shadow Intensity
+$('shadowIntensity').addEventListener('input', e => {
+  const intensity = e.target.value;
+  $('shadowValue').textContent = intensity + 'px';
+  $('titleEl').style.textShadow = `5px 5px 0 rgba(0,0,0,0.7), 10px 10px ${intensity}px rgba(0,0,0,0.5)`;
+  $('subtitleEl').style.textShadow = `3px 3px ${intensity}px rgba(0,0,0,0.8)`;
+});
+
+// Quick Color Preset
+function applyColor(color) {
+  $('textColor').value = color;
+  $('textColorHex').value = color.toUpperCase();
+  $('titleEl').style.color = color;
+}
+
+// Move title to position
+function moveTitleTo(position) {
+  const titleEl = $('titleEl');
+  titleEl.style.position = 'absolute';
+  titleEl.style.transform = 'translate(-50%, -50%)';
+  
+  switch(position) {
+    case 'top':
+      titleData.x = 640;
+      titleData.y = 150;
+      break;
+    case 'center':
+      titleData.x = 640;
+      titleData.y = 360;
+      break;
+    case 'bottom':
+      titleData.x = 640;
+      titleData.y = 600;
+      break;
+  }
+  
+  titleEl.style.left = titleData.x + 'px';
+  titleEl.style.top = titleData.y + 'px';
+}
+
+// Move subtitle to position
+function moveSubtitleTo(position) {
+  const subtitleEl = $('subtitleEl');
+  subtitleEl.style.position = 'absolute';
+  subtitleEl.style.transform = 'translateX(-50%)';
+  
+  switch(position) {
+    case 'top':
+      subtitleData.x = 640;
+      subtitleData.y = 80;
+      break;
+    case 'center':
+      subtitleData.x = 640;
+      subtitleData.y = 200;
+      break;
+    case 'bottom':
+      subtitleData.x = 640;
+      subtitleData.y = 640;
+      break;
+  }
+  
+  subtitleEl.style.left = subtitleData.x + 'px';
+  subtitleEl.style.top = subtitleData.y + 'px';
+}
+
+// Image uploads
+$('bgFile').addEventListener('change', e => {
+  if (e.target.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => $('bgImg').src = e.target.result;
+    reader.readAsDataURL(e.target.files[0]);
+  }
+});
+
+$('logoFile').addEventListener('change', e => {
+  if (e.target.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => $('logoImg').src = e.target.result;
+    reader.readAsDataURL(e.target.files[0]);
+  }
+});
+
+$('overlayFile').addEventListener('change', e => {
+  Array.from(e.target.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => createOverlay(e.target.result);
+    reader.readAsDataURL(file);
+  });
+});
+
+// Create overlay
+function createOverlay(src) {
+  const id = 'o' + Date.now();
+  const item = { id, src, x: 100, y: 100, w: 250, h: 250, brightness: 100, opacity: 100, rotation: 0 };
+  data.overlays.push(item);
+
+  const div = document.createElement('div');
+  div.className = 'overlay-item';
+  div.id = id;
+  div.style.left = item.x + 'px';
+  div.style.top = item.y + 'px';
+  div.style.width = item.w + 'px';
+  div.style.height = item.h + 'px';
+  div.innerHTML = `<img src="${src}"><div class="resize-handle"></div>`;
+
+  div.addEventListener('click', () => selectItem(div, item));
+
+  makeDraggable(div, item);
+  makeResizable(div, item);
+  $('overlaysContainer').appendChild(div);
+  saveHistory();
+}
+
+function selectItem(element, item) {
+  if (selectedItem) {
+    selectedItem.element.style.outline = '';
+  }
+  selectedItem = { element, item };
+  element.style.outline = '3px solid #00ff00';
+  
+  if (item.brightness !== undefined) {
+    $('itemBrightness').value = item.brightness;
+    $('itemBrightValue').textContent = item.brightness + '%';
+  }
+  if (item.opacity !== undefined) {
+    $('itemOpacity').value = item.opacity;
+    $('itemOpacityValue').textContent = item.opacity + '%';
+  }
+  if (item.rotation !== undefined) {
+    $('itemRotate').value = item.rotation;
+    $('itemRotateValue').textContent = item.rotation + '°';
+  }
+}
+
+// Item filters
+$('itemBrightness').addEventListener('input', e => {
+  $('itemBrightValue').textContent = e.target.value + '%';
+  if (selectedItem && selectedItem.item.brightness !== undefined) {
+    selectedItem.item.brightness = e.target.value;
+    const img = selectedItem.element.querySelector('img');
+    if (img) {
+      img.style.filter = `brightness(${e.target.value}%)`;
     }
-  });
+  }
+});
 
-  // Logo image drag & drop
-  setupDragDrop(elements.logoDropZone, elements.logoUpload, (files) => {
-    if (files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        elements.logoImg.src = e.target.result;
-        elements.logoPreview.src = e.target.result;
-        elements.logoPreview.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
+$('itemOpacity').addEventListener('input', e => {
+  $('itemOpacityValue').textContent = e.target.value + '%';
+  if (selectedItem) {
+    selectedItem.item.opacity = e.target.value;
+    selectedItem.element.style.opacity = e.target.value / 100;
+  }
+});
+
+$('itemRotate').addEventListener('input', e => {
+  $('itemRotateValue').textContent = e.target.value + '°';
+  if (selectedItem && selectedItem.item.rotation !== undefined) {
+    selectedItem.item.rotation = e.target.value;
+    selectedItem.element.style.transform = `rotate(${e.target.value}deg)`;
+  }
+});
+
+// Delete selected
+function deleteSelected() {
+  if (!selectedItem) {
+    alert('Please select an item first by clicking on it!');
+    return;
+  }
+  selectedItem.element.remove();
+  
+  // Remove from data
+  data.overlays = data.overlays.filter(i => i.id !== selectedItem.item.id);
+  data.texts = data.texts.filter(i => i.id !== selectedItem.item.id);
+  data.shapes = data.shapes.filter(i => i.id !== selectedItem.item.id);
+  
+  selectedItem = null;
+  saveHistory();
+}
+
+// Duplicate selected
+function duplicateSelected() {
+  if (!selectedItem) {
+    alert('Please select an item first by clicking on it!');
+    return;
+  }
+  
+  const original = selectedItem.item;
+  const newId = original.id.charAt(0) + Date.now();
+  const duplicate = { ...original, id: newId, x: original.x + 20, y: original.y + 20 };
+  
+  if (original.id.startsWith('o')) {
+    data.overlays.push(duplicate);
+    createOverlayFromData(duplicate);
+  } else if (original.id.startsWith('t')) {
+    data.texts.push(duplicate);
+    createTextElement(duplicate);
+  } else if (original.id.startsWith('s')) {
+    data.shapes.push(duplicate);
+    createShapeFromData(duplicate);
+  }
+  
+  saveHistory();
+}
+
+function createOverlayFromData(item) {
+  const div = document.createElement('div');
+  div.className = 'overlay-item';
+  div.id = item.id;
+  div.style.left = item.x + 'px';
+  div.style.top = item.y + 'px';
+  div.style.width = item.w + 'px';
+  div.style.height = item.h + 'px';
+  div.style.opacity = (item.opacity || 100) / 100;
+  div.style.transform = `rotate(${item.rotation || 0}deg)`;
+  div.innerHTML = `<img src="${item.src}" style="filter: brightness(${item.brightness || 100}%)"><div class="resize-handle"></div>`;
+  
+  div.addEventListener('click', () => selectItem(div, item));
+  makeDraggable(div, item);
+  makeResizable(div, item);
+  $('overlaysContainer').appendChild(div);
+}
+
+function createShapeFromData(item) {
+  const div = document.createElement('div');
+  div.className = 'shape-item';
+  div.id = item.id;
+  div.style.left = item.x + 'px';
+  div.style.top = item.y + 'px';
+  div.style.width = item.w + 'px';
+  div.style.height = item.h + 'px';
+  div.style.opacity = item.opacity || 1;
+  
+  if (item.type === 'circle') {
+    div.style.borderRadius = '50%';
+    div.style.backgroundColor = item.color;
+  } else if (item.type === 'rectangle') {
+    div.style.backgroundColor = item.color;
+  } else if (item.type === 'arrow') {
+    div.innerHTML = `<svg width="100%" height="100%"><path d="M10 60 L70 60 L70 40 L95 60 L70 80 L70 60" fill="${item.color}"/></svg>`;
+  } else if (item.type === 'star') {
+    div.innerHTML = `<svg width="100%" height="100%"><path d="M60 10 L70 40 L100 40 L77 58 L87 90 L60 70 L33 90 L43 58 L20 40 L50 40 Z" fill="${item.color}"/></svg>`;
+  }
+  
+  const handle = document.createElement('div');
+  handle.className = 'resize-handle';
+  div.appendChild(handle);
+  
+  div.addEventListener('click', () => selectItem(div, item));
+  makeDraggable(div, item);
+  makeResizable(div, item);
+  $('shapesContainer').appendChild(div);
+}
+
+// Bring to front / send to back
+function bringToFront() {
+  if (!selectedItem) {
+    alert('Please select an item first!');
+    return;
+  }
+  selectedItem.element.style.zIndex = '100';
+}
+
+function sendToBack() {
+  if (!selectedItem) {
+    alert('Please select an item first!');
+    return;
+  }
+  selectedItem.element.style.zIndex = '5';
+}
+
+// Align items
+function alignItems(direction) {
+  if (!selectedItem) {
+    alert('Please select an item first!');
+    return;
+  }
+  
+  const canvas = $('thumbnail').getBoundingClientRect();
+  const item = selectedItem.element;
+  const rect = item.getBoundingClientRect();
+  
+  switch(direction) {
+    case 'left':
+      selectedItem.item.x = 50;
+      item.style.left = '50px';
+      break;
+    case 'center':
+      selectedItem.item.x = 640 - rect.width / 2;
+      item.style.left = (640 - rect.width / 2) + 'px';
+      break;
+    case 'right':
+      selectedItem.item.x = 1230 - rect.width;
+      item.style.left = (1230 - rect.width) + 'px';
+      break;
+    case 'top':
+      selectedItem.item.y = 50;
+      item.style.top = '50px';
+      break;
+    case 'middle':
+      selectedItem.item.y = 360 - rect.height / 2;
+      item.style.top = (360 - rect.height / 2) + 'px';
+      break;
+    case 'bottom':
+      selectedItem.item.y = 670 - rect.height;
+      item.style.top = (670 - rect.height) + 'px';
+      break;
+  }
+  saveHistory();
+}
+
+// Update managers
+function updateManagers() {
+  // Update text list
+  const textList = $('textList');
+  if (data.texts.length === 0) {
+    textList.innerHTML = '<p style="text-align: center; color: #999; font-size: 13px;">No text added yet</p>';
+  } else {
+    textList.innerHTML = data.texts.map(t => `
+      <div style="padding: 8px; background: white; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: #333; flex: 1; overflow: hidden; text-overflow: ellipsis;">${t.text.substring(0, 30)}${t.text.length > 30 ? '...' : ''}</span>
+        <button onclick="focusItem('${t.id}')" style="padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer;">Select</button>
+      </div>
+    `).join('');
+  }
+  
+  // Update image list
+  const imageList = $('imageList');
+  if (data.overlays.length === 0) {
+    imageList.innerHTML = '<p style="text-align: center; color: #999; font-size: 13px;">No images added yet</p>';
+  } else {
+    imageList.innerHTML = data.overlays.map((img, i) => `
+      <div style="padding: 8px; background: white; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: #333;">Image ${i + 1}</span>
+        <button onclick="focusItem('${img.id}')" style="padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer;">Select</button>
+      </div>
+    `).join('');
+  }
+}
+
+function focusItem(id) {
+  const element = $(id);
+  if (element) {
+    const item = [...data.overlays, ...data.texts, ...data.shapes].find(i => i.id === id);
+    if (item) {
+      selectItem(element, item);
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  });
+  }
+}
 
-  // Multiple overlay images drag & drop
-  setupDragDrop(elements.overlayDropZone, elements.overlayUpload, (files) => {
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        addOverlayImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    });
-  });
+// Add text
+function addText() {
+  const id = 't' + Date.now();
+  const color = $('textColor').value;
+  const item = { id, text: 'Your Text', x: 200, y: 350, size: 50, color: color };
+  data.texts.push(item);
 
-  function addOverlayImage(src) {
-    const id = 'overlay-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-    overlayImages.push({ id, src });
+  createTextElement(item);
+  saveHistory();
+}
 
-    // Add preview thumbnail
-    const previewDiv = document.createElement('div');
-    previewDiv.className = 'overlay-item';
-    previewDiv.innerHTML = `
-      <img src="${src}" alt="Overlay">
-      <button class="remove-btn" onclick="removeOverlayImage('${id}')">×</button>
-    `;
-    elements.overlayPreviews.appendChild(previewDiv);
-    elements.overlayPreviewContainer.style.display = 'block';
+// Add text at specific position
+function addTextAt(position) {
+  const id = 't' + Date.now();
+  const color = $('textColor').value;
+  let x = 640; // center x
+  let y = 360; // center y
+  
+  // Calculate positions
+  switch(position) {
+    case 'top':
+      x = 640;
+      y = 100;
+      break;
+    case 'center':
+      x = 640;
+      y = 360;
+      break;
+    case 'bottom':
+      x = 640;
+      y = 620;
+      break;
+    case 'left':
+      x = 150;
+      y = 360;
+      break;
+    case 'right':
+      x = 1100;
+      y = 360;
+      break;
+    case 'topleft':
+      x = 150;
+      y = 100;
+      break;
+    case 'topright':
+      x = 1100;
+      y = 100;
+      break;
+    case 'bottomleft':
+      x = 150;
+      y = 620;
+      break;
+    case 'bottomright':
+      x = 1100;
+      y = 620;
+      break;
+  }
+  
+  const item = { id, text: 'Your Text', x: x, y: y, size: 50, color: color };
+  data.texts.push(item);
+  
+  createTextElement(item);
+  saveHistory();
+}
 
-    // Add to canvas
-    const overlayImg = document.createElement('img');
-    overlayImg.src = src;
-    overlayImg.className = 'overlay-image';
-    overlayImg.id = id;
-    overlayImg.style.width = '200px';
-    overlayImg.style.height = 'auto';
-    overlayImg.style.left = '50px';
-    overlayImg.style.top = '50px';
-    overlayImg.draggable = true;
+function createTextElement(item) {
+  const div = document.createElement('div');
+  div.className = 'text-item';
+  div.id = item.id;
+  div.textContent = item.text;
+  div.style.left = item.x + 'px';
+  div.style.top = item.y + 'px';
+  div.style.fontSize = item.size + 'px';
+  div.style.color = item.color;
+  div.style.textShadow = '3px 3px 8px rgba(0,0,0,0.8)';
+  div.contentEditable = true;
 
-    // Make image draggable within canvas
-    let isDragging = false;
-    let startX, startY, initialLeft, initialTop;
-
-    overlayImg.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      overlayImg.classList.add('dragging');
-      startX = e.clientX;
-      startY = e.clientY;
-      const rect = overlayImg.getBoundingClientRect();
-      const canvasRect = elements.canvas.getBoundingClientRect();
-      initialLeft = rect.left - canvasRect.left;
-      initialTop = rect.top - canvasRect.top;
-      e.preventDefault();
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - startX;
-      const deltaY = e.clientY - startY;
-      const canvasRect = elements.canvas.getBoundingClientRect();
-      const scaleX = 1280 / canvasRect.width;
-      const scaleY = 720 / canvasRect.height;
-      
-      overlayImg.style.left = (initialLeft + deltaX) * scaleX + 'px';
-      overlayImg.style.top = (initialTop + deltaY) * scaleY + 'px';
-    });
-
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        overlayImg.classList.remove('dragging');
+  // Add double-click to change color
+  div.addEventListener('dblclick', (e) => {
+    if (e.target === div) {
+      const newColor = prompt('Enter color (e.g., #ff0000, red, rgb(255,0,0)):', item.color);
+      if (newColor) {
+        item.color = newColor;
+        div.style.color = newColor;
+        saveHistory();
       }
-    });
+    }
+  });
 
-    elements.overlayImagesContainer.appendChild(overlayImg);
+  // Right-click to change size
+  div.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    const newSize = prompt('Enter font size (e.g., 50, 80, 120):', item.size);
+    if (newSize && !isNaN(newSize)) {
+      item.size = parseInt(newSize);
+      div.style.fontSize = item.size + 'px';
+      saveHistory();
+    }
+  });
+
+  div.addEventListener('input', () => { 
+    item.text = div.textContent; 
+  });
+  
+  div.addEventListener('blur', () => {
+    saveHistory();
+  });
+
+  makeDraggable(div, item);
+  $('textsContainer').appendChild(div);
+}
+
+// Add shape
+function addShape(type) {
+  const id = 's' + Date.now();
+  const color = $('shapeColor').value;
+  const opacity = $('shapeOpacity').value / 100;
+  const item = { id, type, x: 300, y: 300, w: 120, h: 120, color: color, opacity: opacity };
+  data.shapes.push(item);
+
+  const div = document.createElement('div');
+  div.className = 'shape-item';
+  div.id = id;
+  div.style.left = item.x + 'px';
+  div.style.top = item.y + 'px';
+  div.style.width = item.w + 'px';
+  div.style.height = item.h + 'px';
+  div.style.opacity = opacity;
+
+  if (type === 'circle') {
+    div.style.borderRadius = '50%';
+    div.style.backgroundColor = item.color;
+  } else if (type === 'rectangle') {
+    div.style.backgroundColor = item.color;
+  } else if (type === 'arrow') {
+    div.innerHTML = `<svg width="100%" height="100%"><path d="M10 60 L70 60 L70 40 L95 60 L70 80 L70 60" fill="${item.color}"/></svg>`;
+  } else if (type === 'star') {
+    div.innerHTML = `<svg width="100%" height="100%"><path d="M60 10 L70 40 L100 40 L77 58 L87 90 L60 70 L33 90 L43 58 L20 40 L50 40 Z" fill="${item.color}"/></svg>`;
   }
 
-  window.removeOverlayImage = function(id) {
-    overlayImages = overlayImages.filter(img => img.id !== id);
-    document.getElementById(id).remove();
-    
-    // Rebuild preview container
-    elements.overlayPreviews.innerHTML = '';
-    overlayImages.forEach(img => {
-      const previewDiv = document.createElement('div');
-      previewDiv.className = 'overlay-item';
-      previewDiv.innerHTML = `
-        <img src="${img.src}" alt="Overlay">
-        <button class="remove-btn" onclick="removeOverlayImage('${img.id}')">×</button>
+  // Add double-click to change color
+  div.addEventListener('dblclick', () => {
+    const newColor = prompt('Enter color (e.g., #ff0000, red, rgb(255,0,0)):', item.color);
+    if (newColor) {
+      item.color = newColor;
+      if (type === 'circle' || type === 'rectangle') {
+        div.style.backgroundColor = newColor;
+      } else if (type === 'arrow') {
+        div.innerHTML = `<svg width="100%" height="100%"><path d="M10 60 L70 60 L70 40 L95 60 L70 80 L70 60" fill="${newColor}"/></svg>`;
+      } else if (type === 'star') {
+        div.innerHTML = `<svg width="100%" height="100%"><path d="M60 10 L70 40 L100 40 L77 58 L87 90 L60 70 L33 90 L43 58 L20 40 L50 40 Z" fill="${newColor}"/></svg>`;
+      }
+      // Re-add resize handle after innerHTML change
+      if (type === 'arrow' || type === 'star') {
+        const handle = document.createElement('div');
+        handle.className = 'resize-handle';
+        div.appendChild(handle);
+        makeResizable(div, item);
+      }
+      saveHistory();
+    }
+  });
+
+  const handle = document.createElement('div');
+  handle.className = 'resize-handle';
+  div.appendChild(handle);
+
+  makeDraggable(div, item);
+  makeResizable(div, item);
+  $('shapesContainer').appendChild(div);
+  saveHistory();
+}
+
+// Add Corner Card
+function addCornerCard(position) {
+  const style = $('cardStyle').value;
+  const text = $('cardText').value;
+  const color = $('cardColor').value;
+  
+  const id = 'card-' + Date.now();
+  const item = { id, type: 'card', style, text, color, position, x: 0, y: 0, w: 150, h: 150 };
+  
+  // Set position based on corner
+  switch(position) {
+    case 'topleft':
+      item.x = 0;
+      item.y = 0;
+      break;
+    case 'topright':
+      item.x = 1130;
+      item.y = 0;
+      break;
+    case 'bottomleft':
+      item.x = 0;
+      item.y = 570;
+      break;
+    case 'bottomright':
+      item.x = 1130;
+      item.y = 570;
+      break;
+  }
+  
+  data.shapes.push(item);
+  createCornerCard(item);
+  saveHistory();
+}
+
+function createCornerCard(item) {
+  const div = document.createElement('div');
+  div.className = 'shape-item';
+  div.id = item.id;
+  div.style.left = item.x + 'px';
+  div.style.top = item.y + 'px';
+  div.style.width = item.w + 'px';
+  div.style.height = item.h + 'px';
+  div.style.zIndex = '50';
+  
+  let html = '';
+  
+  switch(item.style) {
+    case 'badge':
+      html = `
+        <div style="width: 100%; height: 100%; background: ${item.color}; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.4); transform: rotate(-15deg);">
+          <span style="color: white; font-weight: 900; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">${item.text}</span>
+        </div>
       `;
-      elements.overlayPreviews.appendChild(previewDiv);
-    });
-
-    if (overlayImages.length === 0) {
-      elements.overlayPreviewContainer.style.display = 'none';
-    }
-  };
-
-  // Text updates
-  elements.subtitleInput.addEventListener('input', (e) => {
-    elements.subtitleText.textContent = e.target.value;
-  });
-
-  elements.headingInput.addEventListener('input', (e) => {
-    elements.mainText.textContent = e.target.value;
-  });
-
-  // Font size
-  elements.fontSizeSlider.addEventListener('input', (e) => {
-    const size = e.target.value;
-    elements.mainText.style.fontSize = size + 'px';
-    document.getElementById('fontSizeValue').textContent = size + 'px';
-  });
-
-  elements.subSizeSlider.addEventListener('input', (e) => {
-    const size = e.target.value;
-    elements.subtitleText.style.fontSize = size + 'px';
-    document.getElementById('subSizeValue').textContent = size + 'px';
-  });
-
-  // Colors
-  elements.mainColor.addEventListener('input', (e) => {
-    elements.mainText.style.color = e.target.value;
-  });
-
-  elements.subColor.addEventListener('input', (e) => {
-    elements.subtitleText.style.color = e.target.value;
-  });
-
-  elements.bgUrl.addEventListener('change', (e) => {
-    if (e.target.value) {
-      elements.bgImage.src = e.target.value;
-      elements.bgPreview.src = e.target.value;
-      elements.bgPreview.style.display = 'block';
-    }
-  });
-
-  elements.logoUrl.addEventListener('change', (e) => {
-    if (e.target.value) {
-      elements.logoImg.src = e.target.value;
-      elements.logoPreview.src = e.target.value;
-      elements.logoPreview.style.display = 'block';
-    }
-  });
-
-  // Toggles
-  elements.showSubtitle.addEventListener('change', (e) => {
-    elements.subtitleText.style.display = e.target.checked ? 'block' : 'none';
-  });
-
-  elements.showLogo.addEventListener('change', (e) => {
-    elements.logoImg.style.display = e.target.checked ? 'block' : 'none';
-  });
-
-  elements.showOverlay.addEventListener('change', (e) => {
-    elements.overlay.style.display = e.target.checked ? 'block' : 'none';
-  });
-
-  // Template selection
-  function setTemplate(style) {
-    document.querySelectorAll('.template-card').forEach(card => {
-      card.classList.remove('active');
-    });
-    document.querySelector(`[data-template="${style}"]`).classList.add('active');
-    
-    elements.canvas.className = 'thumbnail-canvas style-' + style;
+      break;
+      
+    case 'ribbon':
+      html = `
+        <div style="position: relative; width: 100%; height: 80px; background: ${item.color}; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3);">
+          <span style="color: white; font-weight: 900; font-size: 22px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); z-index: 2;">${item.text}</span>
+          <div style="position: absolute; bottom: -10px; left: 0; width: 0; height: 0; border-left: 75px solid ${item.color}; border-bottom: 10px solid transparent; filter: brightness(0.7);"></div>
+          <div style="position: absolute; bottom: -10px; right: 0; width: 0; height: 0; border-right: 75px solid ${item.color}; border-bottom: 10px solid transparent; filter: brightness(0.7);"></div>
+        </div>
+      `;
+      break;
+      
+    case 'triangle':
+      html = `
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <polygon points="0,0 150,0 0,150" fill="${item.color}" />
+          <text x="40" y="40" fill="white" font-size="20" font-weight="900" transform="rotate(-45 40 40)">${item.text}</text>
+        </svg>
+      `;
+      break;
+      
+    case 'rounded':
+      html = `
+        <div style="width: 100%; height: 100%; background: ${item.color}; border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.4); border: 4px solid white;">
+          <span style="color: white; font-weight: 900; font-size: 22px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">${item.text}</span>
+        </div>
+      `;
+      break;
+      
+    case 'circle':
+      html = `
+        <div style="width: 120px; height: 120px; background: ${item.color}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 5px solid white;">
+          <span style="color: white; font-weight: 900; font-size: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; line-height: 1.2;">${item.text}</span>
+        </div>
+      `;
+      break;
+      
+    case 'starburst':
+      html = `
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <path d="M75,10 L85,60 L135,65 L95,95 L105,145 L75,115 L45,145 L55,95 L15,65 L65,60 Z" fill="${item.color}" stroke="white" stroke-width="3"/>
+          <text x="75" y="85" text-anchor="middle" fill="white" font-size="18" font-weight="900">${item.text}</text>
+        </svg>
+      `;
+      break;
   }
+  
+  div.innerHTML = html;
+  
+  const handle = document.createElement('div');
+  handle.className = 'resize-handle';
+  div.appendChild(handle);
+  
+  div.addEventListener('click', () => selectItem(div, item));
+  div.addEventListener('dblclick', () => {
+    const newText = prompt('Enter new text:', item.text);
+    if (newText) {
+      item.text = newText;
+      // Recreate card with new text
+      div.remove();
+      createCornerCard(item);
+    }
+  });
+  
+  makeDraggable(div, item);
+  makeResizable(div, item);
+  $('shapesContainer').appendChild(div);
+}
 
-  // Reset function
-  function resetAll() {
+// Preset cards
+function addPresetCard(preset) {
+  let text = '', color = '';
+  
+  switch(preset) {
+    case 'new':
+      text = 'NEW';
+      color = '#00ff00';
+      break;
+    case 'hot':
+      text = 'HOT';
+      color = '#ff4500';
+      break;
+    case 'sale':
+      text = 'SALE';
+      color = '#ff0000';
+      break;
+    case 'free':
+      text = 'FREE';
+      color = '#ffd700';
+      break;
+    case 'trending':
+      text = 'TRENDING';
+      color = '#ff1493';
+      break;
+    case 'live':
+      text = 'LIVE';
+      color = '#ff0000';
+      break;
+  }
+  
+  $('cardText').value = text;
+  $('cardColor').value = color;
+  addCornerCard('topright');
+}
+
+// Draggable
+function makeDraggable(el, item) {
+  let dragging = false, startX, startY, startLeft, startTop;
+  
+  el.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('resize-handle')) return;
+    dragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = el.offsetLeft;
+    startTop = el.offsetTop;
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    el.style.left = (startLeft + e.clientX - startX) + 'px';
+    el.style.top = (startTop + e.clientY - startY) + 'px';
+    item.x = startLeft + e.clientX - startX;
+    item.y = startTop + e.clientY - startY;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (dragging) { dragging = false; saveHistory(); }
+  });
+}
+
+// Resizable
+function makeResizable(el, item) {
+  const handle = el.querySelector('.resize-handle');
+  let resizing = false, startX, startY, startW, startH;
+
+  handle.addEventListener('mousedown', e => {
+    resizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startW = el.offsetWidth;
+    startH = el.offsetHeight;
+    e.stopPropagation();
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!resizing) return;
+    const newW = Math.max(50, startW + e.clientX - startX);
+    const newH = Math.max(50, startH + e.clientY - startY);
+    el.style.width = newW + 'px';
+    el.style.height = newH + 'px';
+    item.w = newW;
+    item.h = newH;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (resizing) { resizing = false; saveHistory(); }
+  });
+}
+
+// Toggles
+$('showSubtitle').addEventListener('change', e => {
+  $('subtitleEl').style.display = e.target.checked ? 'block' : 'none';
+});
+
+$('showLogo').addEventListener('change', e => {
+  $('logoImg').style.display = e.target.checked ? 'block' : 'none';
+});
+
+$('showOverlay').addEventListener('change', e => {
+  $('overlayDark').style.display = e.target.checked ? 'block' : 'none';
+});
+
+// Undo/Redo
+function undo() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    restoreState(history[historyIndex]);
+  }
+}
+
+function redo() {
+  if (historyIndex < history.length - 1) {
+    historyIndex++;
+    restoreState(history[historyIndex]);
+  }
+}
+
+function restoreState(state) {
+  data = JSON.parse(JSON.stringify(state));
+  $('overlaysContainer').innerHTML = '';
+  $('textsContainer').innerHTML = '';
+  $('shapesContainer').innerHTML = '';
+  
+  data.overlays.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'overlay-item';
+    div.id = item.id;
+    div.style.left = item.x + 'px';
+    div.style.top = item.y + 'px';
+    div.style.width = item.w + 'px';
+    div.style.height = item.h + 'px';
+    div.innerHTML = `<img src="${item.src}"><div class="resize-handle"></div>`;
+    makeDraggable(div, item);
+    makeResizable(div, item);
+    $('overlaysContainer').appendChild(div);
+  });
+
+  data.texts.forEach(item => {
+    createTextElement(item);
+  });
+
+  data.shapes.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'shape-item';
+    div.id = item.id;
+    div.style.left = item.x + 'px';
+    div.style.top = item.y + 'px';
+    div.style.width = item.w + 'px';
+    div.style.height = item.h + 'px';
+    
+    if (item.type === 'circle') {
+      div.style.borderRadius = '50%';
+      div.style.backgroundColor = item.color;
+    } else if (item.type === 'rectangle') {
+      div.style.backgroundColor = item.color;
+    } else if (item.type === 'arrow') {
+      div.innerHTML = `<svg width="100%" height="100%"><path d="M10 60 L70 60 L70 40 L95 60 L70 80 L70 60" fill="${item.color}"/></svg>`;
+    } else if (item.type === 'star') {
+      div.innerHTML = `<svg width="100%" height="100%"><path d="M60 10 L70 40 L100 40 L77 58 L87 90 L60 70 L33 90 L43 58 L20 40 L50 40 Z" fill="${item.color}"/></svg>`;
+    }
+    
+    const handle = document.createElement('div');
+    handle.className = 'resize-handle';
+    div.appendChild(handle);
+    makeDraggable(div, item);
+    makeResizable(div, item);
+    $('shapesContainer').appendChild(div);
+  });
+}
+
+function reset() {
+  if (confirm('Reset everything? This cannot be undone.')) {
     location.reload();
   }
+}
 
-  // Download function with automatic compression
-  async function downloadImage() {
-    try {
-      // Show loading message
-      const downloadBtn = document.querySelector('.btn-primary');
-      const originalText = downloadBtn.innerHTML;
-      downloadBtn.innerHTML = '⏳ Processing...';
-      downloadBtn.disabled = true;
+// Save/Load Project
+function saveProject() {
+  const project = {
+    data,
+    subtitle: $('subtitle').value,
+    heading: $('heading').value,
+    bgSrc: $('bgImg').src,
+    logoSrc: $('logoImg').src
+  };
+  const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'thumbnail-project-' + Date.now() + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
-      const canvas = await html2canvas(elements.canvas, {
-        width: 1280,
-        height: 720,
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#000000'
-      });
-      
-      // Convert to blob with compression
-      let quality = 0.92; // Start with high quality
-      let blob = await new Promise(resolve => {
-        canvas.toBlob(resolve, 'image/jpeg', quality);
-      });
+function loadProject() {
+  $('projectFile').click();
+}
 
-      // If file is too large, reduce quality until under 2MB
-      while (blob.size > 2 * 1024 * 1024 && quality > 0.5) {
-        quality -= 0.05;
-        blob = await new Promise(resolve => {
-          canvas.toBlob(resolve, 'image/jpeg', quality);
-        });
+$('projectFile').addEventListener('change', e => {
+  if (e.target.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const project = JSON.parse(e.target.result);
+        data = project.data;
+        $('subtitle').value = project.subtitle;
+        $('heading').value = project.heading;
+        $('subtitleEl').textContent = project.subtitle;
+        $('titleEl').textContent = project.heading;
+        if (project.bgSrc) $('bgImg').src = project.bgSrc;
+        if (project.logoSrc) $('logoImg').src = project.logoSrc;
+        restoreState(data);
+        alert('✅ Project loaded successfully!');
+      } catch (err) {
+        alert('❌ Error loading project: ' + err.message);
       }
-
-      // Create download link
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.download = 'youtube-thumbnail-optimized.jpg';
-      link.href = url;
-      link.click();
-      
-      // Cleanup
-      URL.revokeObjectURL(url);
-
-      // Show success message
-      const fileSize = (blob.size / 1024).toFixed(0);
-      downloadBtn.innerHTML = `✅ Downloaded (${fileSize}KB)`;
-      setTimeout(() => {
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-      }, 2000);
-
-    } catch (error) {
-      console.error('Download error:', error);
-      alert('Download tip: Right-click on the thumbnail and select "Save image as..."');
-      downloadBtn.innerHTML = originalText;
-      downloadBtn.disabled = false;
-    }
+    };
+    reader.readAsText(e.target.files[0]);
   }
-</script>
+});
 
+// Download
+async function download() {
+  try {
+    const btn = document.querySelector('.action-btn-primary');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ Processing...';
+    btn.disabled = true;
+
+    // Get the thumbnail element
+    const thumbnailEl = $('thumbnail');
+    
+    // Temporarily remove border radius and shadow for clean export
+    const originalBorderRadius = thumbnailEl.style.borderRadius;
+    const originalBoxShadow = thumbnailEl.style.boxShadow;
+    thumbnailEl.style.borderRadius = '0';
+    thumbnailEl.style.boxShadow = 'none';
+
+    const canvas = await html2canvas(thumbnailEl, {
+      width: 1280,
+      height: 720,
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#000000',
+      logging: false,
+      windowWidth: 1280,
+      windowHeight: 720
+    });
+
+    // Restore original styles
+    thumbnailEl.style.borderRadius = originalBorderRadius;
+    thumbnailEl.style.boxShadow = originalBoxShadow;
+
+    // Create a new canvas with exact dimensions
+    const finalCanvas = document.createElement('canvas');
+    finalCanvas.width = 1280;
+    finalCanvas.height = 720;
+    const ctx = finalCanvas.getContext('2d');
+    
+    // Fill with black background first
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, 1280, 720);
+    
+    // Draw the captured canvas, scaling to fit exactly
+    ctx.drawImage(canvas, 0, 0, 1280, 720);
+
+    let quality = 0.92;
+    let blob = await new Promise(resolve => {
+      finalCanvas.toBlob(resolve, 'image/jpeg', quality);
+    });
+
+    while (blob.size > 2097152 && quality > 0.5) {
+      quality -= 0.05;
+      blob = await new Promise(resolve => {
+        finalCanvas.toBlob(resolve, 'image/jpeg', quality);
+      });
+    }
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.download = 'youtube-thumbnail-' + Date.now() + '.jpg';
+    a.href = url;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    const size = (blob.size / 1024).toFixed(0);
+    btn.innerHTML = '✅ Downloaded (' + size + 'KB)';
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }, 2500);
+  } catch (err) {
+    alert('❌ Download error: ' + err.message + '\n\nTip: Right-click on the thumbnail and select "Save image as..."');
+    const btn = document.querySelector('.action-btn-primary');
+    btn.innerHTML = '⬇️ Download HD';
+    btn.disabled = false;
+  }
+}
+</script>
 </body>
 </html>
