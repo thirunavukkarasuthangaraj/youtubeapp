@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -28,18 +28,15 @@
         header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
-            padding: 80px 0;
-            text-align: center;
+            padding: 60px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .profile-section {
+        .header-content {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 40px;
             flex-wrap: wrap;
-            margin-bottom: 30px;
         }
 
         .profile-photo {
@@ -51,8 +48,9 @@
             object-fit: cover;
         }
 
-        .profile-info {
-            text-align: left;
+        .profile-text {
+            flex: 1;
+            min-width: 300px;
         }
 
         header h1 {
@@ -61,7 +59,7 @@
             font-weight: 700;
         }
 
-        header p {
+        .title {
             font-size: 1.3em;
             margin-bottom: 20px;
             opacity: 0.95;
@@ -69,10 +67,8 @@
 
         .contact-info {
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            gap: 25px;
             flex-wrap: wrap;
-            margin-top: 20px;
         }
 
         .contact-info a {
@@ -144,24 +140,37 @@
         /* Skills */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             margin-top: 30px;
         }
 
-        .skill-tag {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 25px;
-            text-align: center;
-            font-weight: 500;
-            transition: transform 0.3s, box-shadow 0.3s;
+        .skill-category {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #1e3c72;
         }
 
-        .skill-tag:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+        .skill-category h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            padding: 8px 0;
+            color: #555;
+        }
+
+        .skill-category li:before {
+            content: "▹ ";
+            color: #1e3c72;
+            font-weight: bold;
         }
 
         /* Experience */
@@ -176,26 +185,30 @@
         }
 
         .experience-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .experience-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
             flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .experience-title {
-            flex: 1;
+            gap: 15px;
+            margin-bottom: 10px;
         }
 
         .experience-title h3 {
-            color: #333;
+            color: #1e3c72;
             font-size: 1.6em;
             margin-bottom: 5px;
         }
 
         .company {
-            color: #1e3c72;
+            color: #555;
             font-weight: 600;
             font-size: 1.1em;
         }
@@ -210,32 +223,43 @@
             white-space: nowrap;
         }
 
-        .project-section {
-            margin-top: 20px;
+        /* Projects */
+        .projects-list {
+            display: grid;
+            gap: 20px;
         }
 
         .project {
             background: #f8f9fa;
-            padding: 20px;
-            margin: 15px 0;
+            padding: 25px;
             border-radius: 8px;
-            border-left: 4px solid #1e3c72;
+            border-left: 4px solid #2a5298;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
         .project h4 {
             color: #1e3c72;
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            font-size: 1.3em;
+            margin-bottom: 12px;
         }
 
-        .project .tech-stack {
-            color: #666;
-            font-style: italic;
-            margin-bottom: 10px;
-            font-size: 0.95em;
+        .tech-stack {
+            background: white;
+            color: #1e3c72;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
         }
 
-        .project p {
+        .project-description {
             color: #555;
             line-height: 1.7;
         }
@@ -249,14 +273,16 @@
             padding: 8px 0 8px 25px;
             position: relative;
             color: #555;
+            line-height: 1.7;
         }
 
         .project li:before {
-            content: "▸";
+            content: "•";
             color: #1e3c72;
             position: absolute;
             left: 0;
             font-weight: bold;
+            font-size: 1.2em;
         }
 
         /* Education */
@@ -269,7 +295,7 @@
         }
 
         .education-item h3 {
-            color: #333;
+            color: #1e3c72;
             font-size: 1.4em;
             margin-bottom: 10px;
         }
@@ -279,10 +305,10 @@
             font-size: 1.1em;
         }
 
-        /* Languages & Awards */
+        /* Additional Info */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
@@ -297,7 +323,7 @@
         .info-card h3 {
             color: #1e3c72;
             margin-bottom: 15px;
-            font-size: 1.2em;
+            font-size: 1.3em;
         }
 
         .info-card ul {
@@ -305,34 +331,40 @@
         }
 
         .info-card li {
-            padding: 8px 0;
+            padding: 10px 0;
             color: #555;
+            font-size: 1.05em;
         }
 
         .language-level {
             color: #1e3c72;
             font-weight: 600;
             font-size: 0.9em;
+            margin-left: 5px;
         }
 
-        /* Stats Banner */
-        .stats-banner {
+        /* Stats */
+        .experience-badge {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 10px;
             text-align: center;
             margin: 40px auto;
+            box-shadow: 0 5px 20px rgba(30, 60, 114, 0.3);
         }
 
-        .stats-banner h3 {
-            font-size: 2.5em;
+        .experience-badge h3 {
+            font-size: 3em;
             margin-bottom: 10px;
+            color: white;
+            border: none;
+            padding: 0;
         }
 
-        .stats-banner p {
-            font-size: 1.2em;
-            opacity: 0.9;
+        .experience-badge p {
+            font-size: 1.3em;
+            opacity: 0.95;
         }
 
         /* Footer */
@@ -350,16 +382,12 @@
                 font-size: 2em;
             }
 
-            header p {
+            .title {
                 font-size: 1.1em;
             }
 
-            .profile-section {
+            .header-content {
                 flex-direction: column;
-                text-align: center;
-            }
-
-            .profile-info {
                 text-align: center;
             }
 
@@ -376,29 +404,23 @@
                 font-size: 1.8em;
             }
 
-            .experience-header {
+            .experience-top {
                 flex-direction: column;
-            }
-
-            .experience-date {
-                align-self: flex-start;
             }
 
             nav ul {
                 gap: 20px;
             }
 
-            .stats-banner h3 {
-                font-size: 2em;
+            .experience-badge h3 {
+                font-size: 2.5em;
             }
         }
 
-        /* Smooth scroll */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -418,20 +440,20 @@
 <body>
     <header>
         <div class="container">
-            <div class="profile-section">
+            <div class="header-content">
                 <img src="Thirunavukkarasu.png" alt="Thirunavukkarasu Thangaraj" class="profile-photo">
-                <div class="profile-info">
+                <div class="profile-text">
                     <h1>Thirunavukkarasu Thangaraj</h1>
-                    <p>Senior Software Developer & Team Leader</p>
+                    <p class="title">Senior Software Developer & Team Leader</p>
+                    <div class="contact-info">
+                        <a href="mailto:thiruna2394@gmail.com">
+                            <span>✉</span> thiruna2394@gmail.com
+                        </a>
+                        <a href="tel:+918144002155">
+                            <span>📱</span> +91 8144002155
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="contact-info">
-                <a href="mailto:thiruna2394@gmail.com">
-                    <span>✉</span> thiruna2394@gmail.com
-                </a>
-                <a href="tel:+918144002155">
-                    <span>📱</span> +91 8144002155
-                </a>
             </div>
         </div>
     </header>
@@ -447,178 +469,217 @@
     </nav>
 
     <div class="container">
-        <section id="summary" class="summary">
-            <h2>About Me</h2>
+        <section id="summary">
+            <h2>Summary</h2>
             <p>
                 Accomplished Senior Software Developer & Team Leader at Mavens-I softech solutions, adept in Web and Mobile App Development with a robust skill set in Angular, Java, and Android. Demonstrated success in project leadership and innovation, notably with the Gigsumo and Care-online platforms, enhancing user experience and operational efficiency. Excel in collaborative teamwork and problem-solving, ensuring optimal outcomes.
             </p>
         </section>
 
-        <div class="stats-banner">
+        <section id="skills">
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Frontend Development</h3>
+                    <ul>
+                        <li>Angular</li>
+                        <li>JavaScript</li>
+                        <li>TypeScript</li>
+                        <li>HTML & CSS</li>
+                        <li>Bootstrap</li>
+                     </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Backend & Services</h3>
+                    <ul>
+                        <li>Java</li>
+                        <li>Spring Boot</li>
+                        <li>RESTful Web Services</li>
+                        <li>WebSocket</li>
+                        <li>API Integration</li>
+                    </ul>
+                </div>
+
+                                <div class="skill-category">
+                    <h3>Mobile Development</h3>
+                    <ul>
+                        <li>Android Native</li>
+                        <li>Ionic Hybrid App Development</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Cloud & DevOps</h3>
+                    <ul>
+                        <li>AWS Services</li>
+                        <li>Docker</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Payment Integration</h3>
+                    <ul>
+                         <li>Stripe</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Other Skills</h3>
+                    <ul>
+                        <li>Git</li>
+                        <li>JIRA & Scrum Master</li>
+                        <li>Team Lead</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="experience-badge">
             <h3>9+ Years</h3>
             <p>of Professional Software Development Experience</p>
         </div>
 
-        <section id="skills">
-            <h2>Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-tag">Angular</div>
-                <div class="skill-tag">Android Native</div>
-                <div class="skill-tag">AWS Services</div>
-                <div class="skill-tag">Java</div>
-                <div class="skill-tag">Hybrid App Development</div>
-                <div class="skill-tag">JavaScript</div>
-                <div class="skill-tag">TypeScript</div>
-                <div class="skill-tag">HTML</div>
-                <div class="skill-tag">CSS</div>
-                <div class="skill-tag">Bootstrap</div>
-                <div class="skill-tag">Web Application Development</div>
-                <div class="skill-tag">Ionic</div>
-                <div class="skill-tag">Code Reviews</div>
-                <div class="skill-tag">API Integration</div>
-                <div class="skill-tag">RESTful Web Services</div>
-                <div class="skill-tag">Payment Gateway</div>
-                <div class="skill-tag">WebSocket</div>
-                <div class="skill-tag">Spring Boot</div>
-            </div>
-        </section>
-
         <section id="experience">
-            <h2>Professional Experience</h2>
+            <h2>Experience</h2>
 
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title">
-                        <h3>Senior Software Developer & Team Lead</h3>
-                        <p class="company">MAVENS-I SOFTECH SOLUTIONS</p>
+                    <div class="experience-top">
+                        <div class="experience-title">
+                            <h3>Senior Software Developer & Team Lead</h3>
+                            <p class="company">Mavens-I Softech Solutions</p>
+                        </div>
+                        <span class="experience-date">July 2019 - Present</span>
                     </div>
-                    <span class="experience-date">July 2019 - Present</span>
                 </div>
 
-                <div class="project-section">
+                <div class="projects-list">
                     <div class="project">
-                        <h4>Project 1: Gigsumo Job Portal Application</h4>
-                        <p class="tech-stack">Technologies: Web App, Angular, Amazon DynamoDB, Kafka, Elastic Search, MySQL, AWS Services</p>
-                        <p>Gigsumo is a job portal application that facilitates job search and recruitment processes.</p>
+                        <h4>Gigsumo Job Portal Application</h4>
+                        <div class="tech-stack">Web App • Angular • DynamoDB • Kafka • Elastic Search • MySQL • AWS</div>
+                        <p class="project-description">Gigsumo is a job portal application that facilitates job search and recruitment processes.</p>
                     </div>
 
                     <div class="project">
-                        <h4>Project 2: Care-online Social Platform Application</h4>
-                        <p class="tech-stack">Technologies: Web App, Angular, Amazon DynamoDB, Kafka, Elastic Search, MySQL</p>
+                        <h4>Care-online Social Platform Application</h4>
+                        <div class="tech-stack">Web App • Angular • DynamoDB • Kafka • Elastic Search • MySQL</div>
                         <ul>
-                            <li>Care-online is a collaborative platform enabling physicians, agencies, patients, and families to communicate and manage care</li>
+                            <li>Collaborative platform enabling physicians, agencies, patients, and families to communicate and manage care</li>
                             <li>Includes HIPBATH-compliant messaging to coordinate care in real-time, ensuring the best possible patient outcomes</li>
                         </ul>
                     </div>
 
-                    <h4 style="color: #1e3c72; margin: 30px 0 20px 0; font-size: 1.3em;">Renault Nissan India Pvt Ltd Projects</h4>
-
                     <div class="project">
                         <h4>DVT (Digital Vehicle Tracking)</h4>
-                        <p class="tech-stack">Technologies: Web App - Angular & Mobile App - Native Android, Spring Boot, PostgreSQL</p>
-                        <p>This app is used for tracking newly manufactured cars post-QA testing as they are parked in the yard.</p>
+                        <div class="tech-stack">Angular • Native Android • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Tracks newly manufactured cars post-QA testing as they are parked in the yard. Developed for Renault Nissan India.</p>
                     </div>
 
                     <div class="project">
                         <h4>DTO (Digital Transport Order)</h4>
-                        <p class="tech-stack">Technologies: Android SDK, Spring Boot, PostgreSQL</p>
-                        <p>The DTO app is used for loading cars onto transport trucks.</p>
+                        <div class="tech-stack">Android SDK • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Application used for loading cars onto transport trucks. Developed for Renault Nissan India.</p>
                     </div>
 
                     <div class="project">
-                        <h4>ePOD (Electronic Proof of Delivery) Dealer Application</h4>
-                        <p class="tech-stack">Technologies: Android SDK, Spring Boot, PostgreSQL</p>
-                        <p>Dealers use this app to inspect cars, document any damages or missing parts with images, and send the information to transporters.</p>
+                        <h4>ePOD (Electronic Proof of Delivery)</h4>
+                        <div class="tech-stack">Android SDK • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Dealers use this app to inspect cars, document any damages or missing parts with images, and send the information to transporters.</p>
                     </div>
 
                     <div class="project">
                         <h4>LTSM (Long Term Maintenance System)</h4>
-                        <p class="tech-stack">Technologies: Android SDK, Spring Boot, PostgreSQL</p>
-                        <p>This application helps users schedule and manage car maintenance every three months.</p>
+                        <div class="tech-stack">Android SDK • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Application helps users schedule and manage car maintenance every three months.</p>
                     </div>
 
                     <div class="project">
                         <h4>Transporter Application</h4>
-                        <p class="tech-stack">Technologies: Android SDK, Spring Boot, PostgreSQL</p>
-                        <p>Transporter application allows transporters to log in, and accept or reject tasks through a mobile app.</p>
+                        <div class="tech-stack">Android SDK • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Allows transporters to log in, and accept or reject tasks through a mobile app.</p>
                     </div>
 
                     <div class="project">
                         <h4>MOM (Minutes of the Meeting)</h4>
-                        <p class="tech-stack">Technologies: Angular, Spring Boot, PostgreSQL</p>
-                        <p>Minutes of the Meeting Application developed for RNAIPL.</p>
+                        <div class="tech-stack">Angular • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Meeting management application developed for RNAIPL.</p>
                     </div>
 
                     <div class="project">
                         <h4>NLTH (Nissan Leasing Thailand)</h4>
-                        <p class="tech-stack">Technologies: Angular Web App & Ionic Mobile, Spring Boot, PostgreSQL</p>
-                        <p>This stock auditing system helps manage and audit inventory for Nissan Leasing in Thailand.</p>
+                        <div class="tech-stack">Angular Web App • Ionic Mobile • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Stock auditing system to manage and audit inventory for Nissan Leasing in Thailand.</p>
                     </div>
 
                     <div class="project">
                         <h4>Stock Auditing Systems (RNDBCI)</h4>
-                        <p class="tech-stack">Technologies: Angular Web App & Ionic Mobile, Spring Boot, PostgreSQL</p>
-                        <p>This project involves a stock auditing system for RNDBCI.</p>
+                        <div class="tech-stack">Angular Web App • Ionic Mobile • Spring Boot • PostgreSQL</div>
+                        <p class="project-description">Stock auditing system developed for RNDBCI.</p>
                     </div>
                 </div>
             </div>
 
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title">
-                        <h3>Mobile App Developer</h3>
-                        <p class="company">VEGA INTELLISOFT PVT LTD</p>
+                    <div class="experience-top">
+                        <div class="experience-title">
+                            <h3>Mobile App Developer</h3>
+                            <p class="company">Vega Intellisoft Pvt Ltd</p>
+                        </div>
+                        <span class="experience-date">July 2018 - June 2019</span>
                     </div>
-                    <span class="experience-date">July 2018 - June 2019</span>
                 </div>
-                <p style="color: #555; margin-top: 15px;">Worked as a vendor at Mavens-I Softech Solutions.</p>
+                <p style="color: #555; font-size: 1.05em;">Worked as a vendor at Mavens-I Softech Solutions.</p>
             </div>
 
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title">
-                        <h3>Mobile Application Developer</h3>
-                        <p class="company">BESTSHINE EDUCATION CAMPUS</p>
+                    <div class="experience-top">
+                        <div class="experience-title">
+                            <h3>Mobile Application Developer</h3>
+                            <p class="company">Bestshine Education Campus</p>
+                        </div>
+                        <span class="experience-date">September 2017 - June 2018</span>
                     </div>
-                    <span class="experience-date">September 2017 - June 2018</span>
                 </div>
 
-                <div class="project-section">
+                <div class="projects-list">
                     <div class="project">
-                        <h4>Project 1: Best-shine Education Application (Hybrid)</h4>
-                        <p class="tech-stack">Technologies: Ionic Framework, Cordova, AngularJS, MySQL</p>
-                        <p>Best-shine Education App is management software for educational institutions, supporting activities of management, teachers, parents, students, and drivers.</p>
+                        <h4>Best-shine Education Application</h4>
+                        <div class="tech-stack">Ionic Framework • Cordova • AngularJS • MySQL</div>
+                        <p class="project-description">Management software for educational institutions, supporting activities of management, teachers, parents, students, and drivers.</p>
                     </div>
 
                     <div class="project">
-                        <h4>Project 2: Transport App</h4>
-                        <p class="tech-stack">Technologies: Android SDK, Java, MySQL</p>
-                        <p>This application is used by school bus drivers for student pickup and drop-off.</p>
+                        <h4>Transport App</h4>
+                        <div class="tech-stack">Android SDK • Java • MySQL</div>
+                        <p class="project-description">Application used by school bus drivers for student pickup and drop-off.</p>
                     </div>
                 </div>
             </div>
 
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title">
-                        <h3>Android Developer</h3>
-                        <p class="company">BLUEDYNE SOFTWARE PVT LTD</p>
+                    <div class="experience-top">
+                        <div class="experience-title">
+                            <h3>Android Developer</h3>
+                            <p class="company">Bluedyne Software Pvt Ltd</p>
+                        </div>
+                        <span class="experience-date">September 2016 - September 2017</span>
                     </div>
-                    <span class="experience-date">September 2016 - September 2017</span>
                 </div>
 
-                <div class="project-section">
+                <div class="projects-list">
                     <div class="project">
-                        <h4>Insurance App (Fresher)</h4>
-                        <p class="tech-stack">Technologies: Android SDK, Java, MySQL, PHP</p>
-                        <p>This app helps users find suitable insurance options.</p>
+                        <h4>Insurance App</h4>
+                        <div class="tech-stack">Android SDK • Java • MySQL • PHP</div>
+                        <p class="project-description">Application helps users find suitable insurance options.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="education">
-            <h2>Education</h2>
+            <h2>Education and Training</h2>
             
             <div class="education-item">
                 <h3>Bachelor of Engineering in Computer Science</h3>
@@ -646,7 +707,7 @@
                 <div class="info-card">
                     <h3>Awards & Recognition</h3>
                     <ul>
-                        <li>Received a gift card from the client</li>
+                        <li>Received gift card from client for exceptional performance</li>
                     </ul>
                 </div>
             </div>
